@@ -1,0 +1,1 @@
+INSERT INTO domobus.property VALUES (DEFAULT, 'EA1');

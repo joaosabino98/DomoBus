@@ -1,0 +1,31 @@
+# docker-compose.yml
+
+version: '3'
+services:
+  server:
+    container_name: pgrest
+    image: postgrest/postgrest
+    ports:
+      - "3000:3000"
+    links:
+      - db:db
+    environment:
+      PGRST_DB_URI: postgres://authenticator:mysecretpassword@db:5432/app_db
+      PGRST_DB_SCHEMA: domobus
+      PGRST_DB_ANON_ROLE: web_anon #In production this role should not be the same as the one used for the connection
+    depends_on:
+      - db
+  db:
+    container_name: psql_db
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: app_db
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - "./init_DB:/docker-entrypoint-initdb.d/"
+  # Uncomment this if you want to persist the data.
+  # volumes:
+  #   - "./pgdata:/var/lib/postgresql/data"
