@@ -11,7 +11,7 @@ services:
       - db:db
     environment:
       PGRST_DB_URI: postgres://authenticator:mysecretpassword@db:5432/app_db
-      PGRST_DB_SCHEMA: domobus
+      PGRST_DB_SCHEMA: public
       PGRST_DB_ANON_ROLE: web_anon #In production this role should not be the same as the one used for the connection
     depends_on:
       - db
