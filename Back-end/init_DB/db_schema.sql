@@ -78,17 +78,15 @@ CREATE TABLE domobus.value (
 
 CREATE OR REPLACE FUNCTION add_values_for_new_device()
 RETURNS TRIGGER AS
-$BODY$
+$body$
 BEGIN
-	-- FOR temprow IN
-	-- 	SELECT * FROM domobus.type_property NATURAL JOIN domobus.property
-	-- 	WHERE (type_id = NEW.device_type_id)
-	-- LOOP
-	-- 	INSERT INTO domobus.value VALUES (NEW.device_id, temprow.property_id, temprow.property_default_value);
-	-- END LOOP;
-	-- RETURN NEW;
+	INSERT INTO domobus.value (value_device_id, value_property_id, value_number)
+	SELECT NEW.device_id, property_id, property_default_value
+	FROM domobus.type_property NATURAL JOIN domobus.property
+	WHERE (type_id = NEW.device_type_id);
+	RETURN NEW;
 END;
-$BODY$
+$body$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER new_device
@@ -121,6 +119,10 @@ grant web_anon to app_user;
 
 grant usage on schema domobus to web_anon;
 grant select on domobus.home to web_anon;
+grant select on domobus.division to web_anon;
+grant select on domobus.device to web_anon;
+grant select on domobus.value to web_anon;
+
 
 create role authenticator noinherit login password 'mysecretpassword';
 grant web_anon to authenticator;
