@@ -28,4 +28,17 @@ Examples of avaliable API links:
 * http://localhost:3000/device?division_home_id=eq.1 - check devices in division 1.
 * http://localhost:3000/value?value_device_id=eq.1 - check values of device 1.
 
+### Change value
+
+Example function call to change lamp "ON" status from OFF (0) to ON (1).
+```
+curl --location --request POST 'localhost:3000/rpc/change_value' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'arg_person_id=1' \
+--data-urlencode 'arg_device_id=1' \
+--data-urlencode 'arg_property_id=1' \
+--data-urlencode 'arg_value_number=1'
+```
+TIP: use Postman to manipulate requests.
+
 Insertion is still restricted. (TODO)
