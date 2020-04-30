@@ -41,4 +41,9 @@ curl --location --request POST 'localhost:3000/rpc/change_value' \
 ```
 TIP: use Postman to manipulate requests.
 
-Insertion is still restricted. (TODO)
+
+## TO-DO
+
+1. Add maximum and minimum thresholds for values in property table?
+2. Create functions to insert objects
+3. Authentication
