@@ -16,9 +16,9 @@ INSERT INTO domobus.role VALUES (DEFAULT, 'USER');
 INSERT INTO domobus.person VALUES (DEFAULT, 'Alejandro');
 INSERT INTO domobus.person VALUES (DEFAULT, 'Rachadel');
 INSERT INTO domobus.home_person_role VALUES (1, 1, 1); -- Alejandro é OWNER da Casa da Venezuela
-INSERT INTO domobus.home_person_role VALUES (1, 1, 2); -- Rachadel é USER da Casa da Venezuela
-INSERT INTO domobus.home_person_role VALUES (1, 2, 2); -- Alejandro é USER da Casa de Lisboa
-INSERT INTO domobus.home_person_role VALUES (1, 2, 1); -- Rachadel é OWNER da Casa de Lisboa
+INSERT INTO domobus.home_person_role VALUES (1, 2, 2); -- Rachadel é USER da Casa da Venezuela
+INSERT INTO domobus.home_person_role VALUES (2, 1, 2); -- Alejandro é USER da Casa de Lisboa
+INSERT INTO domobus.home_person_role VALUES (2, 2, 1); -- Rachadel é OWNER da Casa de Lisboa
 INSERT INTO domobus.person_division_access VALUES (1, 1, DEFAULT); -- OWNER TEM ACESSO TOTAL A TODAS AS DIVISÕES
 INSERT INTO domobus.person_division_access VALUES (1, 2, DEFAULT); -- TODO: Criar trigger para conceder acesso a todas as divisões por default
 INSERT INTO domobus.person_division_access VALUES (1, 3, DEFAULT);

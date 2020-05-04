@@ -15,12 +15,12 @@ CREATE TABLE domobus.role (
 	PRIMARY KEY (role_id)
 );
 CREATE TABLE domobus.home_person_role (
-	person_id INT NOT NULL,
 	home_id INT NOT NULL,
+	person_id INT NOT NULL,
 	role_id INT NOT NULL,
-	PRIMARY KEY (person_id, home_id, role_id),
-	FOREIGN KEY (person_id) REFERENCES domobus.person (person_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (home_id, person_id, role_id),
 	FOREIGN KEY (home_id) REFERENCES domobus.home (home_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (person_id) REFERENCES domobus.person (person_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (role_id) REFERENCES domobus.role (role_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE domobus.division (
