@@ -6,6 +6,7 @@ grant select on domobus.person to web_anon;
 grant select on domobus.home to web_anon;
 grant select on domobus.type to web_anon;
 grant select on domobus.division to web_anon;
+grant select on domobus.property to web_anon;
 grant select on domobus.device to web_anon;
 grant select, update on domobus.value to web_anon;
 grant select on domobus.home_person_role to web_anon;

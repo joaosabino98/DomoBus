@@ -25,7 +25,6 @@ services:
       POSTGRES_DB: app_db
       POSTGRES_USER: app_user
       POSTGRES_PASSWORD: password
-
     volumes:
       - "./init_DB:/docker-entrypoint-initdb.d/"
   # Uncomment this if you want to persist the data.
