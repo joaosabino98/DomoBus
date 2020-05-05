@@ -1,9 +1,19 @@
 import * as React from 'react';
-import { StyleSheet, Image, View, Text } from 'react-native';
+import { StyleSheet, Image, View, Text, Button } from 'react-native';
+import { Picker } from '@react-native-community/picker';
+import AuthContext from '../API/AuthContext';
+import LoginContext from '../API/LoginContext';
 
+function LoginScreen({ navigation }) {
 
-function LoginScreen() {
-  	return (
+	const { signIn } = React.useContext(AuthContext);
+	const context = React.useContext(LoginContext);
+	const [username, setUsername] = React.useState('');
+	const [password, setPassword] = React.useState('');
+
+	console.log(context);
+	
+	return (
     <View style={{ flex: 1 }}>
 		<View style={ styles.logoContainer }>
 			<Image
@@ -12,8 +22,28 @@ function LoginScreen() {
 			/>
 		</View>
 		<View style={ styles.inputContainer }>
-      		<Text>Hello!</Text>
-			<Text>There will be some sort of login here, I swear</Text>
+			<View>
+				<Text style={ styles.title }>Welcome home!</Text>
+			</View>
+			<View style={ styles.userContainer }>
+				<Text style={ styles.text }>User:</Text>
+				<Picker
+					
+					selectedValue={username}
+					style={{height: 50, width: "100%"}}
+					onValueChange={(itemValue, itemIndex) => itemValue != "" && setUsername(itemValue)}
+				>
+					<Picker.Item label="Select a User" value="" />
+					{context.user?.map((item) => { return <Picker.Item key={item.person_id} label={item.person_name} value={item.person_id} /> })}
+				</Picker>
+			</View>
+			<View style={ styles.buttonContainer }>
+				<Button
+					style={{height: 50}}
+					title="Login"
+					onPress={() => signIn({ home_id: 1, username, password })}
+				/>
+			</View>
 		</View>
     </View>
   );
@@ -21,18 +51,37 @@ function LoginScreen() {
 
 const styles = StyleSheet.create({
 	logoContainer: {
-		flex: 0.3,
+		flex: 0.4,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	logo: {
 		width: "60%",
 	},
+	title: {
+		fontSize: 18,
+		fontWeight: 'bold',
+		alignSelf: 'center',
+	},
+	text: {
+		fontSize: 16,
+		paddingLeft: 9
+	},
 	inputContainer: {
 		flex: 0.6,
-		alignItems: 'center',
-		justifyContent: 'center'
+	},
+	userContainer: {
+		marginTop: "20%",
+		width: "80%",
+		alignSelf: 'center'
+	},
+	buttonContainer: {
+		position: 'absolute',
+		bottom: 50,
+		width: "80%",
+		alignSelf: 'center'
 	}
+
   });
 
 export default LoginScreen;

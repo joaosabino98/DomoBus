@@ -5,8 +5,6 @@ INSERT INTO domobus.home VALUES (DEFAULT, 'Casa de Papel');
 INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Cozinha');
 INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Quarto');
 INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Sala');
-INSERT INTO domobus.person VALUES (DEFAULT, 'Alejandro');
-INSERT INTO domobus.person VALUES (DEFAULT, 'Rachadel');
 
 -- STATIC ROLES
 INSERT INTO domobus.role VALUES (DEFAULT, 'OWNER');
