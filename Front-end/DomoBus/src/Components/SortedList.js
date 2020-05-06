@@ -75,7 +75,15 @@ function SortedList({
 
   return (
     <ScrollView style={styles.container}>
-      <Text>test</Text>
+      <FlatList data={sortDevices()} renderItem={(item) => (
+          <TouchableOpacity>
+            <View style={styles.listItem}>
+              <Text style={styles.listText}>{item.device_name}</Text>
+              <Text style={styles.listText}>{decodeType(item.device_type_id)}</Text>
+              <Text style={styles.listText}>{decodeDivision(item.device_division_id)}</Text>
+            </View>
+          </TouchableOpacity>
+      )}/>
     </ScrollView>
   );
 }
@@ -89,14 +97,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   listItem: {
+    flexDirection: 'row',
     height: 20,
     marginVertical: 5,
-    backgroundColor: '#000',
   },
   listText: {
     textAlign: 'center',
     fontSize: 15,
-    color: '#fff',
   },
 });
 
