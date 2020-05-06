@@ -1,0 +1,103 @@
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  FlatList,
+  ScrollView,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/dist/MaterialIcons';
+
+function SortedList({
+  deviceList,
+  sortType,
+  typeList,
+  divisionList,
+  propertyList,
+  selectDevice,
+}) {
+  const decodeDevice = id => {
+    for (let i = 0; i < deviceList.length; i++) {
+      if (deviceList[i].device_id == id) {
+        return deviceList[i].device_name;
+      }
+    }
+  };
+
+  const decodeType = id => {
+    for (let i = 0; i < typeList.length; i++) {
+      if (typeList[i].type_id == id) {
+        return typeList[i].type_name;
+      }
+    }
+  };
+
+  const decodeDivision = id => {
+    for (let i = 0; i < divisionList.length; i++) {
+      if (divisionList[i].division_id == id) {
+        return divisionList[i].division_name;
+      }
+    }
+  };
+
+  const decodeProperty = id => {
+    for (let i = 0; i < propertyList.length; i++) {
+      if (propertyList[i].property_id == id) {
+        return propertyList[i].property_name;
+      }
+    }
+  };
+
+  const sortDevices = () => {
+    switch (sortType) {
+      case 0:
+        return deviceList.sort((a, b) =>
+          a.device_name.localeCompare(b.device_name),
+        );
+      case 1:
+        return deviceList
+          .sort((a, b) => a.device_name.localeCompare(b.device_name))
+          .reverse();
+      case 2:
+        return deviceList.sort((a, b) =>
+          a.device_type.localeCompare(b.device_type),
+        );
+        {
+          /*case 4: sort by status
+        return deviceList.sort((a, b) =>
+            a.localeCompare(b),
+        );*/
+        }
+    }
+  };
+
+  return (
+    <ScrollView style={styles.container}>
+      <Text>test</Text>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  list: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  listItem: {
+    height: 20,
+    marginVertical: 5,
+    backgroundColor: '#000',
+  },
+  listText: {
+    textAlign: 'center',
+    fontSize: 15,
+    color: '#fff',
+  },
+});
+
+export default SortedList;

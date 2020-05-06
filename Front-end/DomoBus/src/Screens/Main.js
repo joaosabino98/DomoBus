@@ -10,52 +10,48 @@ import {
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import {Overlay} from 'react-native-elements';
 import {BoxShadow} from 'react-native-shadow';
+import {Picker} from '@react-native-community/picker';
 
 import UserContext from '../API/UserContext';
-import {Picker} from '@react-native-community/picker';
+import SortedList from '../Components/SortedList';
 
 function HomeScreen({navigation}) {
   const context = React.useContext(UserContext);
 
   console.log(context);
 
-  {
-    /*const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const toggleOverlay = () => {
     setVisible(!visible);
   };
 
-  <Overlay
-          isVisible={visible}
-          onBackdropPress={toggleOverlay}
-          overlayStyle={styles.overlay}>
-          <Text style={styles.overlayText}>Sort by:</Text>
-          <FlatList
-            data={sortOptions}
-            renderItem={({item}) => (
-              <TouchableOpacity>
-                <View style={styles.listItem}>
-                  <Text style={styles.listText}>{item.text}</Text>
-                </View>
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item.key}
-          />
-        </Overlay>
-  */
-  }
-
+  const [device, selectDevice] = useState(context.device[0]);
+  {
+    /*
   const sortOptions = useState([
     {key: 0, text: 'Name A-Z'},
     {key: 1, text: 'Name Z-A'},
     {key: 2, text: 'Device Type'},
     {key: 3, text: 'Status'},
   ]);
+  */
+  }
   const [activeSort, setActiveSort] = useState(0);
 
   const setSort = o => {
     setActiveSort(o);
+  };
+
+  const deviceDetails = n => {
+    selectDevice(() => {
+      for (let i = 0; i < context.device.length; i++) {
+        if (context.device[i].device_id == n) {
+          return context.device[i];
+        }
+      }
+    });
+    toggleOverlay();
   };
 
   const shadowOpt = {
@@ -95,13 +91,28 @@ function HomeScreen({navigation}) {
                 <Picker.Item label="A-Z Name" value="0" />
                 <Picker.Item label="Z-A Name" value="1" />
                 <Picker.Item label="Device Type" value="2" />
-                <Picker.Item label="Status" value="3" />
+                {/*<Picker.Item label="Status" value="3" />*/}
               </Picker>
             </View>
           </View>
         </View>
       </BoxShadow>
-      <View />
+      <View>
+        <SortedList
+          deviceList={context.device}
+          sortType={activeSort}
+          typeList={context.type}
+          divisionList={context.division}
+          propertyList={context.property}
+          selectDevice={deviceDetails}
+        />
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={toggleOverlay}
+          overlayStyle={styles.overlay}>
+          <Text style={styles.overlayText}>Device: {device.device_id}</Text>
+        </Overlay>
+      </View>
     </View>
   );
 }
