@@ -193,4 +193,3 @@ const styles = StyleSheet.create({
 })
 
 export default App;
->>>>>>> 06115b958718ee5bdaee08661654ac4b470949b7
