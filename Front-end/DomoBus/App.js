@@ -11,6 +11,8 @@ import AuthContext from './src/API/AuthContext';
 import LoginContext from './src/API/LoginContext';
 import UserContext from './src/API/UserContext';
 import { fetchUsers, fetchTypes, fetchProperties, fetchDivisionsInHome, fetchHomes, fetchDevicesInHome } from './src/API/Api';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,8 @@ function App({ navigation }) {
 
 	const [loginContext, setLoginContext] = React.useState({});
 	const [userContext, setUserContext] = React.useState({});
+	const [homeID, setHomeID] = React.useState(1);
+	const [userID, setUserID] = React.useState(null);
 
 	const [state, dispatch] = React.useReducer(
 		(prevState, action) => {
@@ -82,6 +86,25 @@ function App({ navigation }) {
 	
 		bootstrapAsync();
 	}, []);
+
+	async function updateData() {
+		let type, property, division, device, context;
+
+		await fetchTypes().then((result) => type = result)
+		.then(() => fetchProperties()).then((result) => property = result)
+		.then(() => fetchDivisionsInHome(homeID)).then((result) => division = result)
+		.then(() => fetchDevicesInHome(homeID)).then((result) => device = result)
+		.then(() => {
+			context = {
+				type: type,
+				property: property,
+				division: division,
+				device: device
+			}
+			setUserContext(context)
+		})
+	}
+
 	
 	const authContext = React.useMemo(
 		() => ({
@@ -90,24 +113,9 @@ function App({ navigation }) {
 				// We will also need to handle errors if sign in failed
 				// After getting token, we need to persist the token using `AsyncStorage`
 				// In the example, we'll use a dummy token
-				let type, property, division, device, context;
 
-				async function updateData() {
-					await fetchTypes().then((result) => type = result)
-					.then(() => fetchProperties()).then((result) => property = result)
-					.then(() => fetchDivisionsInHome(data.home_id)).then((result) => division = result)
-					.then(() => fetchDevicesInHome(data.home_id)).then((result) => device = result)
-					.then(() => {
-						context = {
-							type: type,
-							property: property,
-							division: division,
-							device: device
-						}
-						setUserContext(context)
-					})
-				}
-
+				setUserID(data.userID)
+				setHomeID(data.homeID);
 
 				updateData();
 
@@ -143,7 +151,25 @@ function App({ navigation }) {
 					// </>
 				) : (
 					<>
-					<Stack.Screen name="Home" component={HomeScreen} />
+					<Stack.Screen
+						name="Home"
+						component={HomeScreen}
+						options={{
+							headerShown: false,
+							// headerRight: () => (
+							// 	<View style={styles.buttonView}>
+							// 		<TouchableOpacity>
+							// 			<Icon name="md-search" size={30} color="#4F8EF7" />
+							// 		</TouchableOpacity>
+							// 		<TouchableOpacity
+							// 			onPress={() => updateData()}
+							// 		>
+							// 			<Icon name="md-refresh" size={30} color="#4F8EF7" />
+							// 		</TouchableOpacity>
+							// 	</View>
+							// )
+						}}
+					/>
 				</>
 				)}
 				</Stack.Navigator>
@@ -153,5 +179,15 @@ function App({ navigation }) {
 		</AuthContext.Provider>
 	);
 }
+
+const styles = StyleSheet.create({
+	buttonView: {
+		width: 100,
+		height: 50,
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+		flexDirection: 'row'
+	}
+})
 
 export default App;
