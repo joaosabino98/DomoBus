@@ -8,6 +8,7 @@ function LoginScreen({ navigation }) {
 
 	const { signIn } = React.useContext(AuthContext);
 	const context = React.useContext(LoginContext);
+	const [userID, setUserID] = React.useState(null);
 	const [username, setUsername] = React.useState('');
 	const [password, setPassword] = React.useState('');
 
@@ -29,9 +30,9 @@ function LoginScreen({ navigation }) {
 				<Text style={ styles.text }>User:</Text>
 				<Picker
 					
-					selectedValue={username}
+					selectedValue={userID}
 					style={{height: 50, width: "100%"}}
-					onValueChange={(itemValue, itemIndex) => itemValue != "" && setUsername(itemValue)}
+					onValueChange={(itemValue, itemIndex) => itemValue != "" && setUserID(itemValue)}
 				>
 					<Picker.Item label="Select a User" value="" />
 					{context.user?.map((item) => { return <Picker.Item key={item.person_id} label={item.person_name} value={item.person_id} /> })}
@@ -41,7 +42,7 @@ function LoginScreen({ navigation }) {
 				<Button
 					style={{height: 50}}
 					title="Login"
-					onPress={() => signIn({ home_id: 1, username, password })}
+					onPress={() => userID != null && signIn({ homeID: 1, userID: userID, username, password })}
 				/>
 			</View>
 		</View>
