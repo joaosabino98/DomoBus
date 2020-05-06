@@ -1,8 +1,7 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import {View, Button, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {Icon} from 'react-native-vector-icons/dist/MaterialIcons';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -13,7 +12,6 @@ import AuthContext from './src/API/AuthContext';
 import LoginContext from './src/API/LoginContext';
 import UserContext from './src/API/UserContext';
 import { fetchUsers, fetchTypes, fetchProperties, fetchDivisionsInHome, fetchHomes, fetchDevicesInHome } from './src/API/Api';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Stack = createStackNavigator();
