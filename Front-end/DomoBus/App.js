@@ -114,10 +114,10 @@ function App({ navigation }) {
 				// After getting token, we need to persist the token using `AsyncStorage`
 				// In the example, we'll use a dummy token
 
-				setUserID(data.userID)
+				setUserID(data.userID);
 				setHomeID(data.homeID);
 
-				updateData();
+				await updateData();
 
 				dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
 			},
