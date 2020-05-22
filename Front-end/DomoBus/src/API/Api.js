@@ -7,6 +7,7 @@ export const url_property = url_base + "property"
 export const url_type = url_base + "type"
 export const url_division = url_base + "division?select=division_id,division_name"
 export const url_device = url_base + "device?select=device_id,device_name,device_type_id,device_division_id,value(value_property_id,value_number)"
+export const url_change_value = url_base + "rpc/change_value"
 
 export async function fetchUsers() {
     return await fetch(url_user)
@@ -58,6 +59,26 @@ export async function fetchDivisionsInHome(home_id) {
 
 export async function fetchDevicesInHome(home_id) {
     return await fetch(url_device + "&device_home_id=eq." + home_id)
+    .then((response) => response.json())
+    .catch((error) => {
+        console.error(error);
+    });
+}
+
+export async function changeValue(user_id, device_id, property_id, value_number) {
+    return await fetch(url_change_value, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: JSON.stringify({
+            arg_person_id: user_id,
+            arg_device_id: device_id,
+            arg_property_id: property_id,
+            arg_value_number: value_number
+        })
+    })
     .then((response) => response.json())
     .catch((error) => {
         console.error(error);

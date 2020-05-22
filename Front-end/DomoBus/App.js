@@ -54,38 +54,35 @@ function App({ navigation }) {
 	);
 
 	React.useEffect(() => {
-		let user, home, context;
-		fetchUsers().then((result) => user = result)
-		.then(() => fetchHomes()).then((result) => home = result)
-			.then(() => {
-				context = {
-					user: user,
-					home: home
-				}
-				setLoginContext(context);
-			})
-	}, [])
-	
-	React.useEffect(() => {
 		// Fetch the token from storage then navigate to our appropriate place
 		const bootstrapAsync = async () => {
 			let userToken;
-		
+			
 			try {
 				userToken = await AsyncStorage.getItem('userToken');
 			} catch (e) {
 				// Restoring token failed
 			}
-		
-			// After restoring token, we may need to validate it in production apps
-		
-			// This will switch to the App screen or Auth screen and this loading
-			// screen will be unmounted and thrown away.
+			
+			await updateUsers();
+
 			dispatch({ type: 'RESTORE_TOKEN', token: userToken });
 		};
-	
 		bootstrapAsync();
 	}, []);
+
+	async function updateUsers() {
+		let user, home, context;
+		await fetchUsers().then((result) => user = result)
+		.then(() => fetchHomes()).then((result) => home = result)
+		.then(() => {
+			context = {
+				user: user,
+				home: home
+			}
+			setLoginContext(context);
+		})
+	}
 
 	async function updateData() {
 		let type, property, division, device, context;
@@ -147,7 +144,13 @@ function App({ navigation }) {
 				<Stack.Navigator>
 				{state.userToken == null ? (
 					// <>
-						<Stack.Screen name="Login" component={LoginScreen} />
+						<Stack.Screen
+							name="Login"
+							component={LoginScreen} 
+							options={{
+								// headerShown: false,
+							}}
+						/>
 					// </>
 				) : (
 					<>
@@ -155,7 +158,7 @@ function App({ navigation }) {
 						name="Home"
 						component={HomeScreen}
 						options={{
-							headerShown: false,
+							// headerShown: false,
 							// headerRight: () => (
 							// 	<View style={styles.buttonView}>
 							// 		<TouchableOpacity>

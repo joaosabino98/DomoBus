@@ -54,49 +54,34 @@ function HomeScreen({navigation}) {
     toggleOverlay();
   };
 
-  const shadowOpt = {
-    width: Dimensions.get('window').width,
-    height: 50,
-    backgroundColor: '#fff',
-    color: '#000',
-    border: 2,
-    radius: 3,
-    opacity: 0.1,
-    shadowOffset: {width: 1, height: 1},
-    elevation: 5,
-    x: 0,
-    y: 3,
-    style: {marginVertical: 5},
-  };
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+      <View style={styles.header}>
+        <TouchableOpacity>
+          <View style={styles.headerButton}>
+            <Icon name="search" size={30} />
+          </View>
+        </TouchableOpacity>
+        <View style={styles.headerButton}>
+          <Icon name="sort" size={30} />
+          <Picker
+            selectedValue={activeSort}
+            style={{height: 50, width: 100}}
+            onValueChange={(itemValue, itemIndex) => setSort(itemValue)}>
+            <Picker.Item label="A-Z Name" value="0" />
+            <Picker.Item label="Z-A Name" value="1" />
+            <Picker.Item label="Device Type" value="2" />
+            {/*<Picker.Item label="Status" value="3" />*/}
+          </Picker>
+        </View>
+      </View>
+      ),
+    });
+  }, [navigation, setSort]);
 
   return (
     <View style={styles.container}>
-      <BoxShadow setting={shadowOpt}>
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <Text style={styles.headerText}>Home</Text>
-          </View>
-          <View style={styles.headerRight}>
-            <TouchableOpacity>
-              <View style={styles.headerButton}>
-                <Icon name="search" size={40} />
-              </View>
-            </TouchableOpacity>
-            <View style={styles.headerButton}>
-              <Icon name="sort" size={40} />
-              <Picker
-                selectedValue={activeSort}
-                style={{height: 50, width: 100}}
-                onValueChange={(itemValue, itemIndex) => setSort(itemValue)}>
-                <Picker.Item label="A-Z Name" value="0" />
-                <Picker.Item label="Z-A Name" value="1" />
-                <Picker.Item label="Device Type" value="2" />
-                {/*<Picker.Item label="Status" value="3" />*/}
-              </Picker>
-            </View>
-          </View>
-        </View>
-      </BoxShadow>
       <View>
         <SortedList
           deviceList={context.device}
@@ -126,10 +111,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
   },
   header: {
-    height: 50,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
   },
   headerLeft: {
     flexDirection: 'row',
@@ -144,12 +126,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
   headerButton: {
-    paddingTop: 5,
     paddingRight: 10,
     flexDirection: 'row',
+    alignItems: 'center',
+    height: '100%'
   },
   overlay: {
     width: '90%',

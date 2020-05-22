@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Image, View, Text, Button } from 'react-native';
+import { StyleSheet, Image, View, Text, Button, ActivityIndicator } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import AuthContext from '../API/AuthContext';
 import LoginContext from '../API/LoginContext';
@@ -39,11 +39,21 @@ function LoginScreen({ navigation }) {
 				</Picker>
 			</View>
 			<View style={ styles.buttonContainer }>
-				<Button
-					style={{height: 50}}
-					title="Login"
-					onPress={() => userID != null && signIn({ homeID: 1, userID: userID, username, password })}
-				/>
+				{loading?
+					<ActivityIndicator size="large" color="#0000ff" />
+					:
+					<Button
+						style={{height: 50}}
+						title="Login"
+						onPress={() => {
+							if (userID != null) {
+								setLoading(true);
+								signIn({ homeID: 1, userID: userID, username, password });
+								// setLoading(false);
+							}
+						}}
+					/>
+				}
 			</View>
 		</View>
     </View>
@@ -60,8 +70,8 @@ const styles = StyleSheet.create({
 		width: "60%",
 	},
 	title: {
-		fontSize: 18,
-		fontWeight: 'bold',
+		fontSize: 20,
+		fontWeight: '500',
 		alignSelf: 'center',
 	},
 	text: {
