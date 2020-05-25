@@ -13,10 +13,12 @@ import {BoxShadow} from 'react-native-shadow';
 import {Picker} from '@react-native-community/picker';
 
 import UserContext from '../API/UserContext';
+import AuthContext from '../API/AuthContext';
 import SortedList from '../Components/SortedList';
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation, route}) {
   const context = React.useContext(UserContext);
+  const { refresh } = React.useContext(AuthContext);
 
   console.log(context);
 
@@ -55,23 +57,28 @@ function HomeScreen({navigation}) {
       headerRight: () => (
       <View style={styles.header}>
         <TouchableOpacity>
-          <View style={styles.headerButton}>
+          {/* <View style={styles.headerButton}>
             <Icon name="search" size={30} />
-          </View>
+          </View> */}
         </TouchableOpacity>
         <View style={styles.headerButton}>
           <Icon name="sort" size={30} />
           <Picker
             selectedValue={String(sort)}
-            style={{height: 50, width: 100}}
+            style={{height: 50, width: 135}}
             onValueChange={(itemValue) => setSort(parseInt(itemValue))}>
             <Picker.Item label="A-Z Name" value="0" />
             <Picker.Item label="Z-A Name" value="1" />
-            <Picker.Item label="Type" value="2" />
+            {/* <Picker.Item label="Type" value="2" /> */}
             <Picker.Item label="Division" value="3" />
             {/*<Picker.Item label="Status" value="3" />*/}
           </Picker>
         </View>
+        <TouchableOpacity onPress={() => refresh()}>
+          <View style={[styles.headerButton, {marginLeft: -5}]}>
+            <Icon name="refresh" size={30} />
+          </View>
+        </TouchableOpacity>
       </View>
       ),
     });
@@ -109,21 +116,6 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  headerText: {
-    paddingLeft: 17,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    fontSize: 20,
-    fontWeight: '500',
   },
   headerButton: {
     paddingRight: 10,

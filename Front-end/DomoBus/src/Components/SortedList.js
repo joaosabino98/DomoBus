@@ -62,7 +62,8 @@ function SortedList({
           a.device_type > b.device_type);
       case 3:
         return deviceList.sort((a, b) =>
-          decodeDivision(a.device_division_id) > decodeDivision(b.device_division_id));
+          a.device_division_id > b.device_division_id);
+          // decodeDivision(a.device_division_id) > decodeDivision(b.device_division_id));
 
           /*case 4: sort by status
         return deviceList.sort((a, b) =>
@@ -77,53 +78,58 @@ function SortedList({
       case 1: // LAMP
         return (
           <View style={styles.status}>
-            <Icon name="power-settings-new" size={20} color="white"
+            <Icon name="power-settings-new" size={15} color="white"
               style={[styles.statusIcon, {backgroundColor: "hsl(120, " + valueList[0].value_number + "00%, 40%)"}]}
             />
-            <Text style={styles.statusText}>
-              {valueList[0].value_number?valueList[1].value_number:0}%
+            <Text style={styles.listText}>
+              {valueList[0].value_number?valueList[1].value_number + "%":"---"}
             </Text>
           </View>
         )
       case 2: // TERMOSTAT
         return (
           <View style={styles.status}>
-            <Text>{valueList[1].value_number/10 + "." + valueList[1].value_number%10}ºC</Text>
+            <Text style={styles.listText}>
+              {valueList[0].value_number?
+              valueList[1].value_number/10 + "." + valueList[1].value_number%10 + "ºC"
+              :"---"}
+            </Text>
           </View>
         )      
       case 3: // AIR CONDITIONATE
         return (
           <View style={styles.status}>
-            <Icon name="power-settings-new" size={20} color="white"
+            <Icon name="power-settings-new" size={15} color="white"
               style={[styles.statusIcon, {backgroundColor: "hsl(120, " + valueList[0].value_number + "00%, 40%)"}]}
             />
-            <Text style={styles.statusText}>
-              {valueList[1].value_number/10 + "." + valueList[1].value_number%10}ºC
+            <Text style={styles.listText}>
+            {valueList[0].value_number?
+              valueList[1].value_number/10 + "." + valueList[1].value_number%10 + "ºC"
+              :"---"}
             </Text>
           </View>
         )
       case 4: // DOOR
         return (
           <View style={styles.status}>
-            <Text>{valueList[0].value_number? "Open": "Closed"}</Text>
+            <Text style={styles.listText}>{valueList[0].value_number? "Open": "Closed"}</Text>
           </View>
         )  
       case 5: // BLINDS
         return (
           <View style={styles.status}>
-            <Icon name="open-in-browser" size={20} color="white"
+            <Icon name="open-in-browser" size={15} color="white"
               style={[styles.statusIcon, {backgroundColor: "hsl(180, " + valueList[0].value_number/2 + "00%, 40%)"}]}
             />
-            <Text style={styles.statusText}>{valueList[0].value_number}%</Text>
+            <Text style={styles.listText}>{valueList[0].value_number + "%"}</Text>
           </View>
         )
       case 6: // OTHER
         return (
           <View style={styles.status}>
-            <Icon name="power-settings-new" size={20} color="white"
+            <Icon name="power-settings-new" size={15} color="white"
               style={[styles.statusIcon, {backgroundColor: "hsl(120, " + valueList[0].value_number + "00%, 40%)"}]}
             />
-            <Text style={styles.statusText}></Text>
           </View>
         )
     }
@@ -139,7 +145,7 @@ function SortedList({
         <View style={styles.listItemDetailSmall}>
           <Text style={styles.listTitleText}>Division</Text>
         </View>
-        <View style={styles.listItemDetailSmall}>
+        <View style={styles.listItemDetailXSmall}>
           <Text style={styles.listTitleText}>State</Text>
         </View>
       </View>
@@ -147,7 +153,7 @@ function SortedList({
 
         {sortDevices()?.map((item) => {
           return (
-            <TouchableOpacity key={item.device_id} style={styles.listItem}>
+            <TouchableOpacity key={item.device_id} style={styles.listItem} onPress={() => selectDevice(item.device_id)}>
               <View style={styles.listItemDetail}>
                 <Text style={styles.listText}>{item.device_name}</Text>
               </View>
@@ -157,7 +163,7 @@ function SortedList({
               <View style={styles.listItemDetailSmall}>
                 <Text style={styles.listText}>{decodeDivision(item.device_division_id)||"---"}</Text>
               </View>
-              <View style={styles.listItemDetailSmall}>
+              <View style={styles.listItemDetailXSmall}>
                 {renderDeviceStatus(item.device_type_id, item.value)}
               </View>
             </TouchableOpacity>
@@ -189,39 +195,42 @@ const styles = StyleSheet.create({
   },
   listItem: {
     flexDirection: 'row',
-    height: 40,
+    height: 50,
     marginBottom: 5,
     marginHorizontal: 5,
+    borderRadius: 5,
     backgroundColor: 'white',
     elevation: 1,
   },
   listItemDetail: {
-    flex: 1,
+    flex: 0.6,
     justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 15
   },
   listItemDetailSmall: {
     flex: 0.5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'flex-start',
+    paddingLeft: 15
+  },
+  listItemDetailXSmall: {
+    flex: 0.4,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 15
   },
   listText: {
-    textAlign: 'center',
     fontSize: 15,
   },
   status: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  statusText: {
-    width: 45,
-    textAlign: 'left',
-    marginLeft: 5
   },
   statusIcon: {
     alignSelf: 'center',
+    padding: 2,
     borderRadius: 2,
-    marginLeft: 15
+    marginRight: 5
   }
 });
 

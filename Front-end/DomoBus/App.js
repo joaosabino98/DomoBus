@@ -12,7 +12,6 @@ import AuthContext from './src/API/AuthContext';
 import LoginContext from './src/API/LoginContext';
 import UserContext from './src/API/UserContext';
 import { fetchUsers, fetchTypes, fetchProperties, fetchDivisionsInHome, fetchHomes, fetchDevicesInHome } from './src/API/Api';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const Stack = createStackNavigator();
 
@@ -105,6 +104,7 @@ function App({ navigation }) {
 	
 	const authContext = React.useMemo(
 		() => ({
+			refresh: () => updateData(),
 			signIn: async data => {
 				// In a production app, we need to send some data (usually username, password) to server and get a token
 				// We will also need to handle errors if sign in failed
@@ -147,9 +147,6 @@ function App({ navigation }) {
 						<Stack.Screen
 							name="Login"
 							component={LoginScreen} 
-							options={{
-								// headerShown: false,
-							}}
 						/>
 					// </>
 				) : (
@@ -157,21 +154,6 @@ function App({ navigation }) {
 					<Stack.Screen
 						name="Home"
 						component={HomeScreen}
-						options={{
-							// headerShown: false,
-							// headerRight: () => (
-							// 	<View style={styles.buttonView}>
-							// 		<TouchableOpacity>
-							// 			<Icon name="md-search" size={30} color="#4F8EF7" />
-							// 		</TouchableOpacity>
-							// 		<TouchableOpacity
-							// 			onPress={() => updateData()}
-							// 		>
-							// 			<Icon name="md-refresh" size={30} color="#4F8EF7" />
-							// 		</TouchableOpacity>
-							// 	</View>
-							// )
-						}}
 					/>
 				</>
 				)}
