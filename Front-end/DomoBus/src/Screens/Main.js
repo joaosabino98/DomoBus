@@ -67,7 +67,8 @@ function HomeScreen({navigation}) {
             onValueChange={(itemValue) => setSort(parseInt(itemValue))}>
             <Picker.Item label="A-Z Name" value="0" />
             <Picker.Item label="Z-A Name" value="1" />
-            <Picker.Item label="Device Type" value="2" />
+            <Picker.Item label="Type" value="2" />
+            <Picker.Item label="Division" value="3" />
             {/*<Picker.Item label="Status" value="3" />*/}
           </Picker>
         </View>
@@ -87,12 +88,12 @@ function HomeScreen({navigation}) {
           propertyList={context.property}
           selectDevice={deviceDetails}
         />
-        {/* <Overlay
+        <Overlay
           isVisible={visible}
           onBackdropPress={toggleOverlay}
           overlayStyle={styles.overlay}>
           <Text style={styles.overlayText}>Device: {device.device_id}</Text>
-        </Overlay> */}
+        </Overlay>
       </View>
     </View>
   );

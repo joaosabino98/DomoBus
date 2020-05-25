@@ -3,8 +3,10 @@ INSERT INTO domobus.home VALUES (DEFAULT, 'Casa da Venezuela');
 INSERT INTO domobus.home VALUES (DEFAULT, 'Casa de Lisboa');
 INSERT INTO domobus.home VALUES (DEFAULT, 'Casa de Papel');
 INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Cozinha');
-INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Quarto');
 INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Sala');
+INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Quarto do Alejandro');
+INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Quarto de Hóspedes');
+INSERT INTO domobus.division VALUES (DEFAULT, 1, 'Garagem');
 
 -- STATIC ROLES
 INSERT INTO domobus.role VALUES (DEFAULT, 'OWNER');
@@ -20,9 +22,13 @@ INSERT INTO domobus.home_person_role VALUES (2, 2, 1); -- João é OWNER da Casa
 INSERT INTO domobus.person_division_access VALUES (1, 1, DEFAULT); -- OWNER TEM ACESSO TOTAL A TODAS AS DIVISÕES
 INSERT INTO domobus.person_division_access VALUES (1, 2, DEFAULT); -- TODO: Criar trigger para conceder acesso a todas as divisões por default
 INSERT INTO domobus.person_division_access VALUES (1, 3, DEFAULT);
-INSERT INTO domobus.person_division_access VALUES (2, 1, FALSE);
-INSERT INTO domobus.person_division_access VALUES (2, 2, FALSE);
-INSERT INTO domobus.person_division_access VALUES (2, 3, TRUE);
+INSERT INTO domobus.person_division_access VALUES (1, 4, DEFAULT);
+INSERT INTO domobus.person_division_access VALUES (1, 5, DEFAULT);
+INSERT INTO domobus.person_division_access VALUES (2, 1, TRUE);
+INSERT INTO domobus.person_division_access VALUES (2, 2, TRUE);
+INSERT INTO domobus.person_division_access VALUES (2, 3, FALSE);
+INSERT INTO domobus.person_division_access VALUES (2, 4, TRUE);
+INSERT INTO domobus.person_division_access VALUES (2, 5, FALSE);
 
 -- STATIC TYPES, PROPERTIES AND RELATIONSHIPS
 INSERT INTO domobus.type VALUES (DEFAULT, 'Lâmpada');
@@ -48,6 +54,9 @@ INSERT INTO domobus.type_property VALUES (6, 1); -- Eletrodoméstico genérico t
 
 
 -- CUSTOM DEVICES
-INSERT INTO domobus.device VALUES (DEFAULT, 'Candeeiro de pé', 1, 3, 1); -- Lãmpada, Sala, Casa da Venezuela
-INSERT INTO domobus.device VALUES (DEFAULT, 'Portão da garagem', 4, NULL, 1); -- Porta, sem divisão, Casa da Venezuela
-INSERT INTO domobus.device VALUES (DEFAULT, 'Estore da janela', 5, 3, 1); -- Estore, Sala, Casa da Venezuela
+INSERT INTO domobus.device VALUES (DEFAULT, 'Candeeiro de pé', 1, 2, 1); -- Lãmpada, Sala, Casa da Venezuela
+INSERT INTO domobus.device VALUES (DEFAULT, 'Portão', 4, 5, 1); -- Porta, Garagem, Casa da Venezuela
+INSERT INTO domobus.device VALUES (DEFAULT, 'Ar condicionado', 3, 2, 1); -- Ar condicionado, Sala, Casa da Venezuela
+INSERT INTO domobus.device VALUES (DEFAULT, 'Candeeiro de cabeceira', 1, 3, 1); -- Lãmpada, Quarto Alejandro, Casa da Venezuela
+INSERT INTO domobus.device VALUES (DEFAULT, 'Candeeiro de cabeceira', 1, 4, 1); -- Lãmpada, Quarto João, Casa da Venezuela
+INSERT INTO domobus.device VALUES (DEFAULT, 'Estore da janela', 5, 2, 1); -- Estore, Sala, Casa da Venezuela
