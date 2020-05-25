@@ -37,11 +37,7 @@ function HomeScreen({navigation}) {
   ]);
   */
   }
-  const [activeSort, setActiveSort] = useState(0);
-
-  const setSort = o => {
-    setActiveSort(o);
-  };
+  const [sort, setSort] = useState(0);
 
   const deviceDetails = n => {
     selectDevice(() => {
@@ -66,9 +62,9 @@ function HomeScreen({navigation}) {
         <View style={styles.headerButton}>
           <Icon name="sort" size={30} />
           <Picker
-            selectedValue={activeSort}
+            selectedValue={String(sort)}
             style={{height: 50, width: 100}}
-            onValueChange={(itemValue, itemIndex) => setSort(itemValue)}>
+            onValueChange={(itemValue) => setSort(parseInt(itemValue))}>
             <Picker.Item label="A-Z Name" value="0" />
             <Picker.Item label="Z-A Name" value="1" />
             <Picker.Item label="Device Type" value="2" />
@@ -78,25 +74,25 @@ function HomeScreen({navigation}) {
       </View>
       ),
     });
-  }, [navigation, setSort]);
+  }, [navigation, setSort, sort]);
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.list}>
         <SortedList
           deviceList={context.device}
-          sortType={activeSort}
+          sortType={sort}
           typeList={context.type}
           divisionList={context.division}
           propertyList={context.property}
           selectDevice={deviceDetails}
         />
-        <Overlay
+        {/* <Overlay
           isVisible={visible}
           onBackdropPress={toggleOverlay}
           overlayStyle={styles.overlay}>
           <Text style={styles.overlayText}>Device: {device.device_id}</Text>
-        </Overlay>
+        </Overlay> */}
       </View>
     </View>
   );
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
   },
   listItem: {
     height: 20,

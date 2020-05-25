@@ -54,15 +54,13 @@ function SortedList({
     switch (sortType) {
       case 0:
         return deviceList.sort((a, b) =>
-          a.device_name.localeCompare(b.device_name),
-        );
+          a.device_name > b.device_name);
       case 1:
-        return deviceList
-          .sort((a, b) => a.device_name.localeCompare(b.device_name))
-          .reverse();
+        return deviceList.sort((a, b) => 
+          a.device_name < b.device_name);
       case 2:
         return deviceList.sort((a, b) =>
-          a.device_type.localeCompare(b.device_type),
+          a.device_type > b.device_type,
         );
         {
           /*case 4: sort by status
@@ -71,20 +69,38 @@ function SortedList({
         );*/
         }
     }
+    return deviceList;
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <FlatList data={sortDevices()} renderItem={(item) => (
-          <TouchableOpacity>
-            <View style={styles.listItem}>
-              <Text style={styles.listText}>{item.device_name}</Text>
-              <Text style={styles.listText}>{decodeType(item.device_type_id)}</Text>
-              <Text style={styles.listText}>{decodeDivision(item.device_division_id)}</Text>
-            </View>
-          </TouchableOpacity>
-      )}/>
-    </ScrollView>
+    <View style={styles.container}>
+
+      <View style={styles.listTitle}>
+        <View style={styles.listItemDetail}>
+          <Text style={styles.listTitleText}>Device</Text>
+        </View>
+        <View style={styles.listItemDetail}>
+          <Text style={styles.listTitleText}>Division</Text>
+        </View>
+      </View>
+      <ScrollView style={styles.container}>
+
+        {sortDevices()?.map((item) => {
+          return (
+            <TouchableOpacity key={item.device_id} style={styles.listItem}>
+              <View style={styles.listItemDetail}>
+                <Text style={styles.listText}>{item.device_name}</Text>
+              </View>
+              {/* <View style={styles.listItemDetail}>
+                <Text style={styles.listText}>{decodeType(item.device_type_id)}</Text>
+              </View> */}
+              <View style={styles.listItemDetail}>
+                <Text style={styles.listText}>{decodeDivision(item.device_division_id)||"---"}</Text>
+              </View>
+            </TouchableOpacity>
+        )})}
+      </ScrollView>
+    </View>
   );
 }
 
@@ -96,10 +112,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
   },
+  listTitle: {
+    flexDirection: 'row',
+    height: 50,
+    margin: 5,
+    borderRadius: 5,
+    backgroundColor: 'midnightblue'
+  },
+  listTitleText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 18
+  },
   listItem: {
     flexDirection: 'row',
     height: 20,
     marginVertical: 5,
+  },
+  listItemDetail: {
+    flex: 1,
+    justifyContent: 'center'
   },
   listText: {
     textAlign: 'center',
