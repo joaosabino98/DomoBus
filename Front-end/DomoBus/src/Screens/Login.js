@@ -11,6 +11,7 @@ function LoginScreen({ navigation }) {
 	const [userID, setUserID] = React.useState(null);
 	const [username, setUsername] = React.useState('');
 	const [password, setPassword] = React.useState('');
+	const [loading, setLoading] = React.useState(false);
 
 	console.log(context);
 	
