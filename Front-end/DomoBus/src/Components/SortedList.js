@@ -17,6 +17,8 @@ function SortedList({
   propertyList,
   selectDevice,
 }) {
+  const NO_VALUE = "---"
+
   const decodeDevice = id => {
     for (let i = 0; i < deviceList.length; i++) {
       if (deviceList[i].device_id == id) {
@@ -82,7 +84,7 @@ function SortedList({
               style={[styles.statusIcon, {backgroundColor: "hsl(120, " + valueList[0].value_number + "00%, 40%)"}]}
             />
             <Text style={styles.listText}>
-              {valueList[0].value_number?valueList[1].value_number + "%":"---"}
+              {valueList[0].value_number?valueList[1].value_number + "%":NO_VALUE}
             </Text>
           </View>
         )
@@ -91,8 +93,7 @@ function SortedList({
           <View style={styles.status}>
             <Text style={styles.listText}>
               {valueList[0].value_number?
-              valueList[1].value_number/10 + "." + valueList[1].value_number%10 + "ºC"
-              :"---"}
+              valueList[1].value_number/10 + "." + valueList[1].value_number%10 + "ºC":NO_VALUE}
             </Text>
           </View>
         )      
@@ -104,8 +105,7 @@ function SortedList({
             />
             <Text style={styles.listText}>
             {valueList[0].value_number?
-              valueList[1].value_number/10 + "." + valueList[1].value_number%10 + "ºC"
-              :"---"}
+              valueList[1].value_number/10 + "." + valueList[1].value_number%10 + "ºC":NO_VALUE}
             </Text>
           </View>
         )
@@ -161,7 +161,7 @@ function SortedList({
                 <Text style={styles.listText}>{decodeType(item.device_type_id)}</Text>
               </View> */}
               <View style={styles.listItemDetailSmall}>
-                <Text style={styles.listText}>{decodeDivision(item.device_division_id)||"---"}</Text>
+                <Text style={styles.listText}>{decodeDivision(item.device_division_id)||NO_VALUE}</Text>
               </View>
               <View style={styles.listItemDetailXSmall}>
                 {renderDeviceStatus(item.device_type_id, item.value)}
