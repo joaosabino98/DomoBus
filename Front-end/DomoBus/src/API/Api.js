@@ -66,20 +66,29 @@ export async function fetchDevicesInHome(home_id) {
 }
 
 export async function changeValue(user_id, device_id, property_id, value_number) {
+    var details = {
+        'arg_person_id': user_id + '',
+        'arg_device_id': device_id + '',
+        'arg_property_id': property_id + '',
+        'arg_value_number': value_number + ''
+    };
+    var formBody = [];
+    for (var property in details) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(details[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
     return await fetch(url_change_value, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({
-            arg_person_id: user_id,
-            arg_device_id: device_id,
-            arg_property_id: property_id,
-            arg_value_number: value_number
-        })
+        body: formBody
     })
-    .then((response) => response.json())
+    .then((response) => response.text())
+    .then((response) => console.log(response))
     .catch((error) => {
         console.error(error);
     });

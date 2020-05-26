@@ -5,16 +5,17 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  FlatList,
+  Switch
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
-import {Overlay} from 'react-native-elements';
-import {BoxShadow} from 'react-native-shadow';
+import {Slider} from 'react-native-elements';
 import {Picker} from '@react-native-community/picker';
+import Modal from 'react-native-modal';
 
 import UserContext from '../API/UserContext';
 import AuthContext from '../API/AuthContext';
 import SortedList from '../Components/SortedList';
+import { changeValue } from '../API/Api';
 
 function HomeScreen({navigation, route}) {
   const context = React.useContext(UserContext);
@@ -29,6 +30,7 @@ function HomeScreen({navigation, route}) {
   };
 
   const [device, selectDevice] = useState(context.device[0]);
+  const [toggle, setToggle] = useState(false);
   {
     /*
   const sortOptions = useState([
@@ -45,6 +47,7 @@ function HomeScreen({navigation, route}) {
     selectDevice(() => {
       for (let i = 0; i < context.device.length; i++) {
         if (context.device[i].device_id == n) {
+          setToggle(context.device[i].value[0].value_number && true);
           return context.device[i];
         }
       }
@@ -95,12 +98,26 @@ function HomeScreen({navigation, route}) {
           propertyList={context.property}
           selectDevice={deviceDetails}
         />
-        <Overlay
+        <Modal
           isVisible={visible}
-          onBackdropPress={toggleOverlay}
-          overlayStyle={styles.overlay}>
-          <Text style={styles.overlayText}>Device: {device.device_id}</Text>
-        </Overlay>
+          onBackdropPress={toggleOverlay}>
+          <View style={styles.overlay}>
+            {/* TODO: Function that renders overlay based on type */}
+            <Text style={styles.overlayText}>{device.device_name}</Text>
+            <Switch
+              trackColor={{ false: "#767577", true: "#81b0ff" }}
+              thumbColor={toggle ? "#f5dd4b" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={() => {
+                var val = device.value[0].value_number = 1 - device.value[0].value_number
+                changeValue(context.userID, device.device_id, 1, val)
+                setToggle(!toggle)
+              }}
+              value={toggle}
+            />
+
+          </View>
+        </Modal>
       </View>
     </View>
   );
@@ -124,8 +141,9 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   overlay: {
-    width: '90%',
-    height: '90%',
+    backgroundColor: 'white',
+    width: Dimensions.get('window').width * 0.9,
+    height: Dimensions.get('window').height * 0.5
   },
   overlayText: {
     fontSize: 20,

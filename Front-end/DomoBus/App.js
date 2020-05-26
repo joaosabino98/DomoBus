@@ -92,6 +92,8 @@ function App({ navigation }) {
 		.then(() => fetchDevicesInHome(homeID)).then((result) => device = result)
 		.then(() => {
 			context = {
+				userID: userID,
+				homeID: homeID,
 				type: type,
 				property: property,
 				division: division,
