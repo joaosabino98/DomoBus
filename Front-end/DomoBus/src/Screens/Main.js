@@ -33,13 +33,7 @@ function HomeScreen({navigation, route}) {
   const [search, updateSearch] = useState('');
 
   const deviceDetails = n => {
-    selectDevice(() => {
-      for (let i = 0; i < context.device.length; i++) {
-        if (context.device[i].device_id == n) {
-          return context.device[i];
-        }
-      }
-    });
+    selectDevice(() => context.device.find((element) => element.device_id == n));
     toggleOverlay();
   };
 

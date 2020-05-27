@@ -103,10 +103,7 @@ function SortedList({
           <View style={styles.status}>
             <Text style={styles.listText}>
               {valueList[0].value_number
-                ? valueList[1].value_number / 10 +
-                  '.' +
-                  (valueList[1].value_number % 10) +
-                  'ºC'
+                ? valueList[1].value_number / 10 + 'ºC'
                 : NO_VALUE}
             </Text>
           </View>
@@ -128,10 +125,7 @@ function SortedList({
             />
             <Text style={styles.listText}>
               {valueList[0].value_number
-                ? valueList[1].value_number / 10 +
-                  '.' +
-                  (valueList[1].value_number % 10) +
-                  'ºC'
+                ? valueList[1].value_number / 10 + 'ºC'
                 : NO_VALUE}
             </Text>
           </View>

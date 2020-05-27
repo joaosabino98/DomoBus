@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
     View,
     Text,
+    TextInput,
     StyleSheet,
     TouchableOpacity,
     Dimensions,
@@ -9,9 +10,40 @@ import {
 } from 'react-native';
 import { changeValue } from '../API/Api';
 
-
 function DeviceInfo({userID, device}) {
-    const [toggle, setToggle] = useState(false);
+    const [property1, setProperty1] = useState(false);
+    const [property2, setProperty2] = useState(250);
+    const [property3, setProperty3] = useState(100);
+    const [property4, setProperty4] = useState(false);
+    const [property5, setProperty5] = useState(100);
+
+    const [longChange2, setLongChange2] = useState(null);
+
+    useEffect(() => {
+        device.value.map((value) => {
+            switch (value.value_property_id) {
+                case 1: return setProperty1(value.value_number && true)
+                case 2: return setProperty2(value.value_number)
+                case 3: return setProperty3(value.value_number)
+                case 4: return setProperty4(value.value_number && true)
+                case 5: return setProperty5(value.value_number)
+            }
+        })
+    }, [])
+
+    function longChangeProperty2(newVal, increase, time) {
+        setProperty2(newVal)
+        setLongChange2(setTimeout(() => longChangeProperty2(newVal + increase, increase), time/2 > 200 ? time/2 : 200));
+    }
+
+    function stopLongChangeProperty2() {
+        clearTimeout(longChange2)
+        changeValue(userID, device.device_id, 2, property2)
+
+        var value = device.value.find((item) => item.value_property_id == 2)
+
+        value.value_number = property2
+    }
 
     const renderProperty = (value, deviceID) => {
         let propertyID = value.value_property_id;
@@ -19,20 +51,45 @@ function DeviceInfo({userID, device}) {
             case 1:
                 return (
                 <View key={propertyID} style={styles.block}>
-                    <Text style={styles.property}>Status: {value.value_number?"ON":"OFF"}</Text>
+                    <Text style={styles.property}>Status: {property1?"ON":"OFF"}</Text>
                     <Switch
                         trackColor={{ false: "#767577", true: "#81b0ff" }}
-                        thumbColor={toggle ? "#1e90ff" : "#f4f3f4"}
+                        thumbColor={property1 ? "#1e90ff" : "#f4f3f4"}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={() => {
                             var val = value.value_number = 1 - value.value_number
                             changeValue(userID, deviceID, 1, val)
-                            setToggle(!toggle)
+                            setProperty1(!property1)
                         }}
-                        value={toggle}
+                        value={property1}
                         />
                 </View>
-            );
+                );
+            case 2:
+                return (
+                <View key={propertyID} style={styles.block}>
+                    <Text style={styles.property}>Temperature: {property2 / 10 + 'ºC'}</Text>
+                    
+                    <View style={styles.temperature}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            // onPress={() => changeProperty2(-1)}
+                            onPressIn={() => longChangeProperty2(property2-5, -5, 1000)}
+                            onPressOut={() => stopLongChangeProperty2()}
+                        >
+                            <Text>-</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            // onPress={() => changeProperty2(1)}
+                            onPressIn={() => longChangeProperty2(property2+5, 5, 1000)}
+                            onPressOut={() => stopLongChangeProperty2()}
+                        >
+                            <Text>+</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                );                
         }
     }
 
@@ -65,6 +122,20 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderTopWidth: 1,
 
+    },
+    temperature: {
+        flexDirection: 'row'
+    },
+    button: {
+        width: 40,
+        height: 40,
+        marginRight: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderWidth: 1,
+        elevation: 2
     },
     title: {
         fontSize: 20,
