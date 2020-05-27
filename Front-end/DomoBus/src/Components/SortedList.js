@@ -74,8 +74,8 @@ function SortedList({
     return deviceList;
   };
 
-  const renderDeviceStatus = (type, valueList) => {
-    switch (type) {
+  const renderDeviceStatus = (typeID, valueList) => {
+    switch (typeID) {
       case 1: // LAMP
         return (
           <View style={styles.status}>
@@ -241,7 +241,8 @@ const styles = StyleSheet.create({
   listTitle: {
     flexDirection: 'row',
     height: 50,
-    margin: 5,
+    marginHorizontal: 10,
+    marginVertical: 5,
     borderRadius: 5,
     backgroundColor: 'midnightblue',
   },
@@ -254,7 +255,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 50,
     marginBottom: 5,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
     borderRadius: 5,
     backgroundColor: 'white',
     elevation: 1,

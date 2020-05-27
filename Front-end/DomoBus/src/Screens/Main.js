@@ -95,7 +95,7 @@ function HomeScreen({navigation, route}) {
           isVisible={visible}
           onBackdropPress={toggleOverlay}
         >
-          <View style={styles.overlay}>
+          <View style={[styles.overlay, {height: Dimensions.get('window').height * (0.5 + 1 * device.value.length)/10}]}>
             <DeviceInfo userID={context.userID} device={device}/>
           </View>
         </Modal>
@@ -127,7 +127,8 @@ const styles = StyleSheet.create({
   searchBar: {
     height: 50,
     borderRadius: 5,
-    marginHorizontal: -2,
+    marginHorizontal: 3,
+    marginVertical: 5,
   },
   overlay: {
     backgroundColor: 'white',
