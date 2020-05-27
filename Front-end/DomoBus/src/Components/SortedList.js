@@ -185,7 +185,7 @@ function SortedList({
   };
 
   const matchSearch = (term, name) => {
-    return term == '' ? true : name.includes(term); // empty string implies search isn't a factor
+    return term == '' ? true : name.toLowerCase().includes(term.toLowerCase()); // empty string implies search isn't a factor
   };
 
   return (
