@@ -78,9 +78,10 @@ function HomeScreen({navigation, route}) {
     <View style={styles.container}>
       <SearchBar
         placeholder="Search by name"
-        onChangeText={() => {
-          updateSearch(search);
-        }}
+        lightTheme={true}
+        round={true}
+        editable={true}
+        onChangeText={updateSearch}
         value={search}
       />
       <View style={styles.list}>
