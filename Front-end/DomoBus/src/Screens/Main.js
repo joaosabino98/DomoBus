@@ -14,6 +14,7 @@ import Modal from 'react-native-modal';
 import UserContext from '../API/UserContext';
 import AuthContext from '../API/AuthContext';
 import SortedList from '../Components/SortedList';
+import DeviceInfo from '../Components/DeviceInfo';
 
 function HomeScreen({navigation, route}) {
   const context = React.useContext(UserContext);
@@ -75,8 +76,6 @@ function HomeScreen({navigation, route}) {
         placeholder="Search by name"
         lightTheme={true}
         editable={true}
-        // round={true}
-        
         onChangeText={updateSearch}
         value={search}
         containerStyle={styles.searchBarView}
@@ -97,7 +96,7 @@ function HomeScreen({navigation, route}) {
           onBackdropPress={toggleOverlay}
         >
           <View style={styles.overlay}>
-            {/* {() => renderDeviceDetails()} */}
+            <DeviceInfo userID={context.userID} device={device}/>
           </View>
         </Modal>
       </View>
@@ -135,23 +134,11 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width * 0.9,
     height: Dimensions.get('window').height * 0.5,
   },
-  overlayText: {
-    fontSize: 20,
-  },
+
   list: {
     flex: 1,
     // justifyContent: 'flex-start',
-  },
-  listItem: {
-    height: 20,
-    marginVertical: 5,
-    backgroundColor: '#000',
-  },
-  listText: {
-    textAlign: 'center',
-    fontSize: 15,
-    color: '#fff',
-  },
+  }
 });
 
 export default HomeScreen;
