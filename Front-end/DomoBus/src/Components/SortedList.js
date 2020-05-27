@@ -16,8 +16,9 @@ function SortedList({
   divisionList,
   propertyList,
   selectDevice,
+  searchQuery,
 }) {
-  const NO_VALUE = "---"
+  const NO_VALUE = '---';
 
   const decodeDevice = id => {
     for (let i = 0; i < deviceList.length; i++) {
@@ -54,20 +55,18 @@ function SortedList({
   const sortDevices = () => {
     switch (sortType) {
       case 0:
-        return deviceList.sort((a, b) =>
-          a.device_name > b.device_name);
+        return deviceList.sort((a, b) => a.device_name > b.device_name);
       case 1:
-        return deviceList.sort((a, b) => 
-          a.device_name < b.device_name);
+        return deviceList.sort((a, b) => a.device_name < b.device_name);
       case 2:
-        return deviceList.sort((a, b) =>
-          a.device_type > b.device_type);
+        return deviceList.sort((a, b) => a.device_type > b.device_type);
       case 3:
-        return deviceList.sort((a, b) =>
-          a.device_division_id > b.device_division_id);
-          // decodeDivision(a.device_division_id) > decodeDivision(b.device_division_id));
+        return deviceList.sort(
+          (a, b) => a.device_division_id > b.device_division_id,
+        );
+      // decodeDivision(a.device_division_id) > decodeDivision(b.device_division_id));
 
-          /*case 4: sort by status
+      /*case 4: sort by status
         return deviceList.sort((a, b) =>
             a.localeCompare(b),
         );*/
@@ -76,68 +75,121 @@ function SortedList({
   };
 
   const renderDeviceStatus = (type, valueList) => {
-    switch(type) {
+    switch (type) {
       case 1: // LAMP
         return (
           <View style={styles.status}>
-            <Icon name="power-settings-new" size={15} color="white"
-              style={[styles.statusIcon, {backgroundColor: "hsl(120, " + valueList[0].value_number + "00%, 40%)"}]}
+            <Icon
+              name="power-settings-new"
+              size={15}
+              color="white"
+              style={[
+                styles.statusIcon,
+                {
+                  backgroundColor:
+                    'hsl(120, ' + valueList[0].value_number + '00%, 40%)',
+                },
+              ]}
             />
             <Text style={styles.listText}>
-              {valueList[0].value_number?valueList[1].value_number + "%":NO_VALUE}
+              {valueList[0].value_number
+                ? valueList[1].value_number + '%'
+                : NO_VALUE}
             </Text>
           </View>
-        )
+        );
       case 2: // TERMOSTAT
         return (
           <View style={styles.status}>
             <Text style={styles.listText}>
-              {valueList[0].value_number?
-              valueList[1].value_number/10 + "." + valueList[1].value_number%10 + "ºC":NO_VALUE}
+              {valueList[0].value_number
+                ? valueList[1].value_number / 10 +
+                  '.' +
+                  (valueList[1].value_number % 10) +
+                  'ºC'
+                : NO_VALUE}
             </Text>
           </View>
-        )      
+        );
       case 3: // AIR CONDITIONATE
         return (
           <View style={styles.status}>
-            <Icon name="power-settings-new" size={15} color="white"
-              style={[styles.statusIcon, {backgroundColor: "hsl(120, " + valueList[0].value_number + "00%, 40%)"}]}
+            <Icon
+              name="power-settings-new"
+              size={15}
+              color="white"
+              style={[
+                styles.statusIcon,
+                {
+                  backgroundColor:
+                    'hsl(120, ' + valueList[0].value_number + '00%, 40%)',
+                },
+              ]}
             />
             <Text style={styles.listText}>
-            {valueList[0].value_number?
-              valueList[1].value_number/10 + "." + valueList[1].value_number%10 + "ºC":NO_VALUE}
+              {valueList[0].value_number
+                ? valueList[1].value_number / 10 +
+                  '.' +
+                  (valueList[1].value_number % 10) +
+                  'ºC'
+                : NO_VALUE}
             </Text>
           </View>
-        )
+        );
       case 4: // DOOR
         return (
           <View style={styles.status}>
-            <Text style={styles.listText}>{valueList[0].value_number? "Open": "Closed"}</Text>
+            <Text style={styles.listText}>
+              {valueList[0].value_number ? 'Open' : 'Closed'}
+            </Text>
           </View>
-        )  
+        );
       case 5: // BLINDS
         return (
           <View style={styles.status}>
-            <Icon name="open-in-browser" size={15} color="white"
-              style={[styles.statusIcon, {backgroundColor: "hsl(180, " + valueList[0].value_number/2 + "00%, 40%)"}]}
+            <Icon
+              name="open-in-browser"
+              size={15}
+              color="white"
+              style={[
+                styles.statusIcon,
+                {
+                  backgroundColor:
+                    'hsl(180, ' + valueList[0].value_number / 2 + '00%, 40%)',
+                },
+              ]}
             />
-            <Text style={styles.listText}>{valueList[0].value_number + "%"}</Text>
+            <Text style={styles.listText}>
+              {valueList[0].value_number + '%'}
+            </Text>
           </View>
-        )
+        );
       case 6: // OTHER
         return (
           <View style={styles.status}>
-            <Icon name="power-settings-new" size={15} color="white"
-              style={[styles.statusIcon, {backgroundColor: "hsl(120, " + valueList[0].value_number + "00%, 40%)"}]}
+            <Icon
+              name="power-settings-new"
+              size={15}
+              color="white"
+              style={[
+                styles.statusIcon,
+                {
+                  backgroundColor:
+                    'hsl(120, ' + valueList[0].value_number + '00%, 40%)',
+                },
+              ]}
             />
           </View>
-        )
+        );
     }
-  }
+  };
+
+  const matchSearch = (term, name) => {
+    return term == '' ? true : name.includes(term); // empty string implies search isn't a factor
+  };
 
   return (
     <View style={styles.container}>
-
       <View style={styles.listTitle}>
         <View style={styles.listItemDetail}>
           <Text style={styles.listTitleText}>Device</Text>
@@ -150,10 +202,12 @@ function SortedList({
         </View>
       </View>
       <ScrollView style={styles.container}>
-
-        {sortDevices()?.map((item) => {
-          return (
-            <TouchableOpacity key={item.device_id} style={styles.listItem} onPress={() => selectDevice(item.device_id)}>
+        {sortDevices()?.map(item => {
+          return matchSearch(searchQuery, item.device_name) ? (
+            <TouchableOpacity
+              key={item.device_id}
+              style={styles.listItem}
+              onPress={() => selectDevice(item.device_id)}>
               <View style={styles.listItemDetail}>
                 <Text style={styles.listText}>{item.device_name}</Text>
               </View>
@@ -161,13 +215,16 @@ function SortedList({
                 <Text style={styles.listText}>{decodeType(item.device_type_id)}</Text>
               </View> */}
               <View style={styles.listItemDetailSmall}>
-                <Text style={styles.listText}>{decodeDivision(item.device_division_id)||NO_VALUE}</Text>
+                <Text style={styles.listText}>
+                  {decodeDivision(item.device_division_id) || NO_VALUE}
+                </Text>
               </View>
               <View style={styles.listItemDetailXSmall}>
                 {renderDeviceStatus(item.device_type_id, item.value)}
               </View>
             </TouchableOpacity>
-        )})}
+          ) : null;
+        })}
       </ScrollView>
     </View>
   );
@@ -186,12 +243,12 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 5,
     borderRadius: 5,
-    backgroundColor: 'midnightblue'
+    backgroundColor: 'midnightblue',
   },
   listTitleText: {
     textAlign: 'center',
     color: 'white',
-    fontSize: 18
+    fontSize: 18,
   },
   listItem: {
     flexDirection: 'row',
@@ -206,19 +263,19 @@ const styles = StyleSheet.create({
     flex: 0.6,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   listItemDetailSmall: {
     flex: 0.5,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   listItemDetailXSmall: {
     flex: 0.4,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   listText: {
     fontSize: 15,
@@ -230,8 +287,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 2,
     borderRadius: 2,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 });
 
 export default SortedList;
