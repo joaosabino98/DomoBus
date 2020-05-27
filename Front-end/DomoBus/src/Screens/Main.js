@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  Switch,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import {SearchBar} from 'react-native-elements';
@@ -43,27 +42,6 @@ function HomeScreen({navigation, route}) {
     toggleOverlay();
   };
 
-  // const renderDeviceDetails = () => {
-  //   setToggle(device.value[0].value_number && true);
-  //   let type = device.device_type_id;
-  //   return (
-  //   <View>
-  //     <Text style={styles.overlayText}>{device.device_name}</Text>
-  //     <Switch
-  //       trackColor={{ false: "#767577", true: "#81b0ff" }}
-  //       thumbColor={toggle ? "#f5dd4b" : "#f4f3f4"}
-  //       ios_backgroundColor="#3e3e3e"
-  //       onValueChange={() => {
-  //         var val = device.value[0].value_number = 1 - device.value[0].value_number
-  //         changeValue(context.userID, device.device_id, 1, val)
-  //         setToggle(!toggle)
-  //       }}
-  //       value={toggle}
-  //     />
-  //   </View>
-  //   )
-  // }
-
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -96,10 +74,13 @@ function HomeScreen({navigation, route}) {
       <SearchBar
         placeholder="Search by name"
         lightTheme={true}
-        round={true}
         editable={true}
+        // round={true}
+        
         onChangeText={updateSearch}
         value={search}
+        containerStyle={styles.searchBarView}
+        inputContainerStyle={styles.searchBar}
       />
       <View style={styles.list}>
         <SortedList
@@ -140,6 +121,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: '100%',
+  },
+  searchBarView: {
+    marginBottom: 10,
+  },
+  searchBar: {
+    height: 50,
+    borderRadius: 5,
+    marginHorizontal: -2,
   },
   overlay: {
     backgroundColor: 'white',
