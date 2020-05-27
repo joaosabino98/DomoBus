@@ -8,14 +8,12 @@ import {
   Switch
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
-import {Slider} from 'react-native-elements';
 import {Picker} from '@react-native-community/picker';
 import Modal from 'react-native-modal';
 
 import UserContext from '../API/UserContext';
 import AuthContext from '../API/AuthContext';
 import SortedList from '../Components/SortedList';
-import { changeValue } from '../API/Api';
 
 function HomeScreen({navigation, route}) {
   const context = React.useContext(UserContext);
@@ -30,7 +28,6 @@ function HomeScreen({navigation, route}) {
   };
 
   const [device, selectDevice] = useState(context.device[0]);
-  const [toggle, setToggle] = useState(false);
   {
     /*
   const sortOptions = useState([
@@ -47,13 +44,33 @@ function HomeScreen({navigation, route}) {
     selectDevice(() => {
       for (let i = 0; i < context.device.length; i++) {
         if (context.device[i].device_id == n) {
-          setToggle(context.device[i].value[0].value_number && true);
           return context.device[i];
         }
       }
     });
     toggleOverlay();
   };
+
+  // const renderDeviceDetails = () => {
+  //   setToggle(device.value[0].value_number && true);
+  //   let type = device.device_type_id;
+  //   return (
+  //   <View>
+  //     <Text style={styles.overlayText}>{device.device_name}</Text>
+  //     <Switch
+  //       trackColor={{ false: "#767577", true: "#81b0ff" }}
+  //       thumbColor={toggle ? "#f5dd4b" : "#f4f3f4"}
+  //       ios_backgroundColor="#3e3e3e"
+  //       onValueChange={() => {
+  //         var val = device.value[0].value_number = 1 - device.value[0].value_number
+  //         changeValue(context.userID, device.device_id, 1, val)
+  //         setToggle(!toggle)
+  //       }}
+  //       value={toggle}
+  //     />
+  //   </View>
+  //   )
+  // }
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -100,22 +117,10 @@ function HomeScreen({navigation, route}) {
         />
         <Modal
           isVisible={visible}
-          onBackdropPress={toggleOverlay}>
+          onBackdropPress={toggleOverlay}
+        >
           <View style={styles.overlay}>
-            {/* TODO: Function that renders overlay based on type */}
-            <Text style={styles.overlayText}>{device.device_name}</Text>
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={toggle ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={() => {
-                var val = device.value[0].value_number = 1 - device.value[0].value_number
-                changeValue(context.userID, device.device_id, 1, val)
-                setToggle(!toggle)
-              }}
-              value={toggle}
-            />
-
+            {/* {() => renderDeviceDetails()} */}
           </View>
         </Modal>
       </View>
