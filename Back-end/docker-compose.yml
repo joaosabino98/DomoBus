@@ -13,7 +13,7 @@ services:
       PGRST_DB_URI: postgres://authenticator:mysecretpassword@db:5432/app_db
       PGRST_DB_SCHEMA: domobus
       PGRST_DB_ANON_ROLE: web_anon #In production this role should not be the same as the one used for the connection
-      JWT_SECRET: 6ItDN9wU2koS1rh5BSPg4o43zKYnBzDaqaIjASUxxsk=
+      PGRST_JWT_SECRET: 6ItDN9wU2koS1rh5BSPg4o43zKYnBzDaqaIjASUxxsk=
     depends_on:
       - db
   db:

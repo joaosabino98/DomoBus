@@ -26,7 +26,6 @@ function DeviceInfo({userID, device}) {
   }, [editing])
 
   const saveName = name => {
-    // call function to change name
     toggleEditing();
     if (device.device_name != nameEdit) {
         device.device_name = nameEdit;

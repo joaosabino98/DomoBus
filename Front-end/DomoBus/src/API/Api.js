@@ -11,32 +11,50 @@ export const url_device = url_base + "device?select=device_id,device_name,device
 export const url_change_value = url_base + "rpc/change_value"
 export const url_change_name = url_base + "rpc/change_name"
 
+const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY2xpZW50In0.40smlCpB59nKfp1o-GCOf9CdjvKndkbOL4IEgu1xrxo"
+
 export async function fetchUsers() {
-    return await fetch(url_user)
-        .then((response) => response.json())
-        .catch((error) => {
-            console.error(error);
-        });
+    return await fetch(url_user, {
+        headers: {
+            'Authorization': 'Bearer ' + TOKEN
+        }
+    })
+    .then((response) => response.json())
+    .catch((error) => {
+        console.error(error);
+    });
 }
 
 export async function fetchHomes() {
-    return await fetch(url_home)
-        .then((response) => response.json())
-        .catch((error) => {
-            console.error(error);
-        });
+    return await fetch(url_home, {
+        headers: {
+            'Authorization': 'Bearer ' + TOKEN
+        }
+    })
+    .then((response) => response.json())
+    .catch((error) => {
+        console.error(error);
+    });
 }
 
 export async function fetchUsersInHome(home_id) {
-    return await fetch(url_user_home + "&home_id=eq." + home_id)
-        .then((response) => response.json())
-        .catch((error) => {
-            console.error(error);
-        });
+    return await fetch(url_user_home + "&home_id=eq." + home_id, {
+        headers: {
+            'Authorization': 'Bearer ' + TOKEN
+        }
+    })
+    .then((response) => response.json())
+    .catch((error) => {
+        console.error(error);
+    });
 }
 
 export async function fetchDivisionAccess(user_id) {
-    return await fetch(url_user_division + "?person_id=eq." + user_id)
+    return await fetch(url_user_division + "?person_id=eq." + user_id, {
+        headers: {
+            'Authorization': 'Bearer ' + TOKEN
+        }
+    })
     .then((response) => response.json())
     .catch((error) => {
         console.error(error);
@@ -44,15 +62,23 @@ export async function fetchDivisionAccess(user_id) {
 }
 
 export async function fetchProperties() {
-    return await fetch(url_property)
-        .then((response) => response.json())
-        .catch((error) => {
-            console.error(error);
-        });
+    return await fetch(url_property, {
+        headers: {
+            'Authorization': 'Bearer ' + TOKEN
+        }
+    })
+    .then((response) => response.json())
+    .catch((error) => {
+        console.error(error);
+    });
 }
 
 export async function fetchTypes() {
-    return await fetch(url_type)
+    return await fetch(url_type, {
+        headers: {
+            'Authorization': 'Bearer ' + TOKEN
+        }
+    })
     .then((response) => response.json())
     .catch((error) => {
         console.error(error);
@@ -60,7 +86,11 @@ export async function fetchTypes() {
 }
 
 export async function fetchDivisionsInHome(home_id) {
-    return await fetch(url_division + "&division_home_id=eq." + home_id)
+    return await fetch(url_division + "&division_home_id=eq." + home_id, {
+        headers: {
+            'Authorization': 'Bearer ' + TOKEN
+        }
+    })
     .then((response) => response.json())
     .catch((error) => {
         console.error(error);
@@ -68,7 +98,11 @@ export async function fetchDivisionsInHome(home_id) {
 }
 
 export async function fetchDevicesInHome(home_id) {
-    return await fetch(url_device + "&device_home_id=eq." + home_id)
+    return await fetch(url_device + "&device_home_id=eq." + home_id, {
+        headers: {
+            'Authorization': 'Bearer ' + TOKEN
+        }
+    })
     .then((response) => response.json())
     .catch((error) => {
         console.error(error);
@@ -92,6 +126,7 @@ export async function changeName(user_id, device_id, device_name) {
         method: 'POST',
         headers: {
             Accept: 'application/json',
+            'Authorization': 'Bearer ' + TOKEN,
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: formBody
@@ -121,6 +156,7 @@ export async function changeValue(user_id, device_id, property_id, value_number)
         method: 'POST',
         headers: {
             Accept: 'application/json',
+            'Authorization': 'Bearer ' + TOKEN,
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: formBody
