@@ -116,6 +116,16 @@ function App({navigation}) {
       });
   }
 
+  React.useEffect(() => {
+		const signinAsync = async () =>  {
+			if (userID) {
+				await updateData();
+				dispatch({type: 'SIGN_IN', token: 'dummy-auth-token'});
+			}
+		}
+		signinAsync();
+  }, [userID]) 
+
   const authContext = React.useMemo(
     () => ({
       refresh: () => updateData(),
@@ -126,12 +136,10 @@ function App({navigation}) {
         // In the example, we'll use a dummy token
 
         setUserID(data.userID);
-        setHomeID(data.homeID);
+				// setHomeID(data.homeID);
 
-        await updateData();
-
-        dispatch({type: 'SIGN_IN', token: 'dummy-auth-token'});
-      },
+				//remaining functionality done with useEffect
+			},
       signOut: () => dispatch({type: 'SIGN_OUT'}),
       signUp: async data => {
         // In a production app, we need to send user data to server and get a token

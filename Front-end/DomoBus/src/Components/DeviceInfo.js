@@ -18,6 +18,7 @@ function DeviceInfo({userID, device}) {
     const [property5, setProperty5] = useState(100);
 
     const [longChange2, setLongChange2] = useState(null);
+    const [longChange3, setLongChange3] = useState(null);
 
     useEffect(() => {
         device.value.map((value) => {
@@ -31,9 +32,10 @@ function DeviceInfo({userID, device}) {
         })
     }, [])
 
-    function longChangeProperty2(newVal, increase, time) {
+    function longChangeProperty2(value, increase, time) {
+        var newVal = value + increase
         setProperty2(newVal)
-        setLongChange2(setTimeout(() => longChangeProperty2(newVal + increase, increase), time/2 > 200 ? time/2 : 200));
+        setLongChange2(setTimeout(() => longChangeProperty2(newVal, increase), time/2 > 200 ? time/2 : 200));
     }
 
     function stopLongChangeProperty2() {
@@ -41,7 +43,6 @@ function DeviceInfo({userID, device}) {
         changeValue(userID, device.device_id, 2, property2)
 
         var value = device.value.find((item) => item.value_property_id == 2)
-
         value.value_number = property2
     }
 
@@ -74,7 +75,7 @@ function DeviceInfo({userID, device}) {
                         <TouchableOpacity
                             style={styles.button}
                             // onPress={() => changeProperty2(-1)}
-                            onPressIn={() => longChangeProperty2(property2-5, -5, 1000)}
+                            onPressIn={() => longChangeProperty2(property2, -5, 1000)}
                             onPressOut={() => stopLongChangeProperty2()}
                         >
                             <Text>-</Text>
@@ -82,7 +83,7 @@ function DeviceInfo({userID, device}) {
                         <TouchableOpacity
                             style={styles.button}
                             // onPress={() => changeProperty2(1)}
-                            onPressIn={() => longChangeProperty2(property2+5, 5, 1000)}
+                            onPressIn={() => longChangeProperty2(property2, 5, 1000)}
                             onPressOut={() => stopLongChangeProperty2()}
                         >
                             <Text>+</Text>
