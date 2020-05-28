@@ -7,6 +7,7 @@ const UserContext = React.createContext({
     type: [],
     property: [],
     device: [],
+    access: []
 });
 
 

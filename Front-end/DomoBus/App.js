@@ -16,6 +16,7 @@ import {
   fetchTypes,
   fetchProperties,
   fetchDivisionsInHome,
+  fetchDivisionAccess,
   fetchHomes,
   fetchDevicesInHome,
 } from './src/API/Api';
@@ -93,7 +94,7 @@ function App({navigation}) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function updateData() {
-    let type, property, division, device, context;
+    let type, property, division, device, context, access;
 
     await fetchTypes()
       .then(result => (type = result))
@@ -103,6 +104,8 @@ function App({navigation}) {
       .then(result => (division = result))
       .then(() => fetchDevicesInHome(homeID))
       .then(result => (device = result))
+      .then(() => fetchDivisionAccess(userID))
+      .then(result => (access = result))
       .then(() => {
         context = {
           userID: userID,
@@ -111,6 +114,7 @@ function App({navigation}) {
           property: property,
           division: division,
           device: device,
+          access: access
         };
         setUserContext(context);
       });
