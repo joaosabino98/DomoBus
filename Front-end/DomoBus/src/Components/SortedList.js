@@ -61,13 +61,13 @@ function SortedList({
 
   const sortDevices = () => {
     switch (sortType) {
-      case 0:
+      case 0: // A-Z
         return deviceList.sort((a, b) => a.device_name > b.device_name);
-      case 1:
+      case 1: // Z-A
         return deviceList.sort((a, b) => a.device_name < b.device_name);
-      case 2:
+      case 2: // Type
         return deviceList.sort((a, b) => a.device_type > b.device_type);
-      case 3:
+      case 3: // Division
         return deviceList.sort(
           (a, b) => a.device_division_id > b.device_division_id,
         );

@@ -46,15 +46,15 @@ function DeviceInfo({userID, device}) {
   useEffect(() => {
     device.value.map(value => {
       switch (value.value_property_id) {
-        case 1:
+        case 1: // ON/OFF
           return setProperty1(value.value_number && true);
-        case 2:
+        case 2: // TEMPERATURE
           return setProperty2(value.value_number);
-        case 3:
+        case 3: // INTENSITY
           return setProperty3(value.value_number);
-        case 4:
+        case 4: // OPEN/CLOSED
           return setProperty4(value.value_number && true);
-        case 5:
+        case 5: // ELEVATION
           return setProperty5(value.value_number);
       }
     });
