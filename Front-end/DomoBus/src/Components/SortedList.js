@@ -15,6 +15,7 @@ function SortedList({
   typeList,
   divisionList,
   propertyList,
+  accessList,
   selectDevice,
   searchQuery,
 }) {
@@ -51,6 +52,12 @@ function SortedList({
       }
     }
   };
+
+  const checkDivisionAccess = id => {
+    if (id == null) return true // device not in a division
+    let access = accessList.find((item) => item.division_id == id)
+    return access.can_control;
+  }
 
   const sortDevices = () => {
     switch (sortType) {
@@ -207,8 +214,9 @@ function SortedList({
           return matchSearch(searchQuery, item.device_name) ? (
             <TouchableOpacity
               key={item.device_id}
-              style={styles.listItem}
-              onPress={() => selectDevice(item.device_id)}>
+              style={[styles.listItem, {backgroundColor: !checkDivisionAccess(item.device_division_id) && "lightgrey"}]}
+              onPress={() => selectDevice(item.device_id)}
+              disabled={!checkDivisionAccess(item.device_division_id)}>
               <View style={styles.listItemDetail}>
                 <Text style={styles.listText}>{item.device_name}</Text>
               </View>

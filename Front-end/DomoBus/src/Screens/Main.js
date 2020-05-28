@@ -82,6 +82,7 @@ function HomeScreen({navigation, route}) {
           typeList={context.type}
           divisionList={context.division}
           propertyList={context.property}
+          accessList={context.access}
           selectDevice={deviceDetails}
           searchQuery={search}
         />
