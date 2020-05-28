@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/dist/MaterialIcons';
+import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {SearchBar} from 'react-native-elements';
 import {Picker} from '@react-native-community/picker';
 import Modal from 'react-native-modal';
@@ -42,7 +42,7 @@ function HomeScreen({navigation, route}) {
       headerRight: () => (
         <View style={styles.header}>
           <View style={styles.headerButton}>
-            <Icon name="sort" size={30} />
+            <Icon name="sort-variant" size={30} />
             <Picker
               selectedValue={String(sort)}
               style={{height: 50, width: 135}}
@@ -94,6 +94,9 @@ function HomeScreen({navigation, route}) {
           </View>
         </Modal>
       </View>
+      {/* <TouchableOpacity style={styles.addbutton}>
+        <Icon name="plus" size={40} color="white" />
+      </TouchableOpacity> */}
     </View>
   );
 }
@@ -103,8 +106,7 @@ function HomeScreen({navigation, route}) {
 }
 const styles = StyleSheet.create({
   container: {
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
+    flex: 1
   },
   header: {
     flexDirection: 'row',
@@ -129,10 +131,21 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width * 0.9,
     height: Dimensions.get('window').height * 0.5,
   },
-
   list: {
     flex: 1,
     // justifyContent: 'flex-start',
+  },
+  addbutton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    backgroundColor: '#1e90ff',
+    elevation: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
