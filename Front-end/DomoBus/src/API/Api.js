@@ -1,4 +1,4 @@
-// const base_url = "localhost:3000/"
+// const base_url = "http://localhost:3000/"
 export const url_base = "http://ec2-3-84-37-237.compute-1.amazonaws.com:3000/"
 export const url_user = url_base + "person"
 export const url_home = url_base + "home"

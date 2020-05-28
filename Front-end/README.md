@@ -1,6 +1,25 @@
 # DOMOBUS MOBILE INTERFACE - FRONT-END
 Ambient Intelligence 2019/2020 - G11
 
+## Functionalities
+
+1. Login with user selection\
+	Users in database are fetched during splash screen\
+	User data is fetched after login
+
+2. View devices in home\
+	List all devices in home with short status indicator\
+	Search by name\
+	Sort by name or division\
+	Refresh all data\
+	Restricted access to devices in unauthorized divisions\
+	Touch device to control it
+
+3. Control device\
+	Overlay with all properties\
+	Context-based controls\
+	Edit name of device
+
 ## Instructions to install React-Native (Ubuntu):
 
 1. Install Node.js:
@@ -59,46 +78,26 @@ Click *Next* then *Finish* to create your AVD.
 Launch the Android Virtual Device you created in the previous section.
 Open a terminal:
 ```
-cd .../DomoBus/Front-end/DomoBus
+cd ./DomoBus/Front-end/DomoBus
 npx react-native start
 ```
 Open another terminal:
 ```
-cd .../DomoBus/Front-end/DomoBus
+cd ./DomoBus/Front-end/DomoBus
 npx react-native run-android
 ```
 The app will run on the emulated device and you can edit the code while watching it change live.
 
-## TO-DO
+## Instructions to generate a new APK:
+Open a terminal:
+```
+cd ./DomoBus/Front-end/DomoBus/android
+./gradlew assembleRelease
+```
+The APK will be in `./DomoBus/Front-end/DomoBus/android/app/build/outputs/apk/release`.
 
-1. Home screen:
-	Devices view;
-	Sort devices;
-	Search button;
-	Add device; *Should devices be added from the Back-end instead?*
 
-2. Sort overlay:
-	Sort by name, type, status (on/off);
 
-3. Search screen:
-	Search by name and type;
-	Display results live;
 
-4. Device screen:
-	Edit button;
-	Change value;
 
-5. New device screen;
-	Set name and type;
 
-6. Edit device screen;
-	Change name;
-	Change type;
-	Change attribute name;
-	Change attribute control;
-
-7. Change type overlay:
-	Choose type from list;
-
-8. Change attribute control overlay:
-	Choose control scheme from list;
