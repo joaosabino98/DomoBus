@@ -214,7 +214,7 @@ function SortedList({
           return matchSearch(searchQuery, item.device_name) ? (
             <TouchableOpacity
               key={item.device_id}
-              style={[styles.listItem, {backgroundColor: !checkDivisionAccess(item.device_division_id) && "lightgrey"}]}
+              style={[styles.listItem, {backgroundColor: checkDivisionAccess(item.device_division_id)?"white":"lightgrey"}]}
               onPress={() => selectDevice(item.device_id)}
               disabled={!checkDivisionAccess(item.device_division_id)}>
               <View style={styles.listItemDetail}>
@@ -266,7 +266,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginHorizontal: 10,
     borderRadius: 5,
-    backgroundColor: 'white',
     elevation: 1,
   },
   listItemDetail: {
