@@ -19,6 +19,7 @@ function DeviceInfo({userID, device}) {
 
     const [longChange2, setLongChange2] = useState(null);
     const [longChange3, setLongChange3] = useState(null);
+    const [longChange5, setLongChange5] = useState(null);
 
     useEffect(() => {
         device.value.map((value) => {
@@ -46,6 +47,38 @@ function DeviceInfo({userID, device}) {
         value.value_number = property2
     }
 
+    function longChangeProperty3(value, increase, time) {
+        if (value + increase <= 100 && value + increase > 0) {
+            var newVal = value + increase
+            setProperty3(newVal)
+            setLongChange3(setTimeout(() => longChangeProperty3(newVal, increase), time/2 > 200 ? time/2 : 200));
+        }
+    }
+
+    function stopLongChangeProperty3() {
+        clearTimeout(longChange3)
+        changeValue(userID, device.device_id, 3, property3)
+
+        var value = device.value.find((item) => item.value_property_id == 3)
+        value.value_number = property3
+    }
+
+    function longChangeProperty5(value, increase, time) {
+        if (value + increase <= 100 && value + increase >= 0) {
+            var newVal = value + increase
+            setProperty5(newVal)
+            setLongChange5(setTimeout(() => longChangeProperty5(newVal, increase), time/2 > 200 ? time/2 : 200));
+        }
+    }
+
+    function stopLongChangeProperty5() {
+        clearTimeout(longChange5)
+        changeValue(userID, device.device_id, 5, property5)
+
+        var value = device.value.find((item) => item.value_property_id == 5)
+        value.value_number = property5
+    }
+
     const renderProperty = (value, deviceID) => {
         let propertyID = value.value_property_id;
         switch(propertyID) {
@@ -63,6 +96,7 @@ function DeviceInfo({userID, device}) {
                             setProperty1(!property1)
                         }}
                         value={property1}
+                        style={{marginRight: 5}}
                         />
                 </View>
                 );
@@ -71,14 +105,14 @@ function DeviceInfo({userID, device}) {
                 <View key={propertyID} style={styles.block}>
                     <Text style={styles.property}>Temperature: {property2 / 10 + 'ºC'}</Text>
                     
-                    <View style={styles.temperature}>
+                    <View style={styles.buttonBlock}>
                         <TouchableOpacity
-                            style={styles.button}
+                            style={[styles.button]}
                             // onPress={() => changeProperty2(-1)}
                             onPressIn={() => longChangeProperty2(property2, -5, 1000)}
                             onPressOut={() => stopLongChangeProperty2()}
                         >
-                            <Text>-</Text>
+                            <Text style={styles.buttonText}>-</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
@@ -86,11 +120,77 @@ function DeviceInfo({userID, device}) {
                             onPressIn={() => longChangeProperty2(property2, 5, 1000)}
                             onPressOut={() => stopLongChangeProperty2()}
                         >
-                            <Text>+</Text>
+                            <Text style={styles.buttonText}>+</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                );                
+                );           
+            case 3:
+                return (
+                <View key={propertyID} style={styles.block}>
+                    <Text style={styles.property}>Intensity: {property3 + '%'}</Text>
+                    
+                    <View style={styles.buttonBlock}>
+                        <TouchableOpacity
+                            style={[styles.button]}
+                            onPressIn={() => longChangeProperty3(property3, -10, 1000)}
+                            onPressOut={() => stopLongChangeProperty3()}
+                        >
+                            <Text style={styles.buttonText}>-</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            // onPress={() => changeProperty2(1)}
+                            onPressIn={() => longChangeProperty3(property3, 10, 1000)}
+                            onPressOut={() => stopLongChangeProperty3()}
+                        >
+                            <Text style={styles.buttonText}>+</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                );       
+            case 4:
+                return (
+                <View key={propertyID} style={styles.block}>
+                    <Text style={styles.property}>Status: {property4?"Open":"Closed"}</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#81b0ff" }}
+                        thumbColor={property4 ? "#1e90ff" : "#f4f3f4"}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={() => {
+                            var val = value.value_number = 1 - value.value_number
+                            changeValue(userID, deviceID, 4, val)
+                            setProperty4(!property4)
+                        }}
+                        value={property4}
+                        style={{marginRight: 5}}
+                        />
+                </View>
+                );
+            case 5:
+                return (
+                <View key={propertyID} style={styles.block}>
+                    <Text style={styles.property}>Elevation: {property5 + '%'}</Text>
+                    
+                    <View style={styles.buttonBlock}>
+                        <TouchableOpacity
+                            style={[styles.button]}
+                            onPressIn={() => longChangeProperty5(property5, -10, 1000)}
+                            onPressOut={() => stopLongChangeProperty5()}
+                        >
+                            <Text style={styles.buttonText}>-</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            // onPress={() => changeProperty2(1)}
+                            onPressIn={() => longChangeProperty5(property5, 10, 1000)}
+                            onPressOut={() => stopLongChangeProperty5()}
+                        >
+                            <Text style={styles.buttonText}>+</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                );   
         }
     }
 
@@ -99,7 +199,9 @@ function DeviceInfo({userID, device}) {
             <View style={styles.blockTitle}>
                 <Text style={styles.title}>{device.device_name}</Text>
             </View>
-            {device.value.map((item) => renderProperty(item, device.device_id))}
+            {device.value
+            .sort((a, b) => a.value_property_id > b.value_property_id)
+            .map((item) => renderProperty(item, device.device_id))}
         </View>
     )
 }
@@ -124,7 +226,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
 
     },
-    temperature: {
+    buttonBlock: {
         flexDirection: 'row'
     },
     button: {
@@ -144,6 +246,9 @@ const styles = StyleSheet.create({
     },
     property: {
         fontSize: 18
+    },
+    buttonText: {
+        fontSize: 16
     }
 });  
 

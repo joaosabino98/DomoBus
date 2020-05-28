@@ -77,6 +77,8 @@ function SortedList({
   const renderDeviceStatus = (typeID, valueList) => {
     switch (typeID) {
       case 1: // LAMP
+        var property1 = valueList.find((item) => item.value_property_id == 1)
+        var property3 = valueList.find((item) => item.value_property_id == 3)
         return (
           <View style={styles.status}>
             <Icon
@@ -87,28 +89,30 @@ function SortedList({
                 styles.statusIcon,
                 {
                   backgroundColor:
-                    'hsl(120, ' + valueList[0].value_number + '00%, 40%)',
+                    'hsl(120, ' + property1.value_number + '00%, 40%)',
                 },
               ]}
             />
             <Text style={styles.listText}>
-              {valueList[0].value_number
-                ? valueList[1].value_number + '%'
+              {property1.value_number
+                ? property3.value_number + '%'
                 : NO_VALUE}
             </Text>
           </View>
         );
       case 2: // TERMOSTAT
+        var property2 = valueList.find((item) => item.value_property_id == 2)
         return (
           <View style={styles.status}>
             <Text style={styles.listText}>
-              {valueList[0].value_number
-                ? valueList[1].value_number / 10 + 'ºC'
-                : NO_VALUE}
+              {property2.value_number / 10 + 'ºC'}
             </Text>
           </View>
         );
       case 3: // AIR CONDITIONATE
+        var property1 = valueList.find((item) => item.value_property_id == 1)
+        var property2 = valueList.find((item) => item.value_property_id == 2)
+        var property3 = valueList.find((item) => item.value_property_id == 3)
         return (
           <View style={styles.status}>
             <Icon
@@ -119,26 +123,28 @@ function SortedList({
                 styles.statusIcon,
                 {
                   backgroundColor:
-                    'hsl(120, ' + valueList[0].value_number + '00%, 40%)',
+                    'hsl(120, ' + property1.value_number + '00%, 40%)',
                 },
               ]}
             />
             <Text style={styles.listText}>
-              {valueList[0].value_number
-                ? valueList[1].value_number / 10 + 'ºC'
+              {property1.value_number
+                ? property2.value_number / 10 + 'ºC'
                 : NO_VALUE}
             </Text>
           </View>
         );
       case 4: // DOOR
+        var property4 = valueList.find((item) => item.value_property_id == 4)
         return (
           <View style={styles.status}>
             <Text style={styles.listText}>
-              {valueList[0].value_number ? 'Open' : 'Closed'}
+              {property4.value_number ? 'Open' : 'Closed'}
             </Text>
           </View>
         );
       case 5: // BLINDS
+        var property5 = valueList.find((item) => item.value_property_id == 5)
         return (
           <View style={styles.status}>
             <Icon
@@ -149,16 +155,17 @@ function SortedList({
                 styles.statusIcon,
                 {
                   backgroundColor:
-                    'hsl(180, ' + valueList[0].value_number / 2 + '00%, 40%)',
+                    'hsl(180, ' + property5.value_number / 1.5 + '%, 40%)',
                 },
               ]}
             />
             <Text style={styles.listText}>
-              {valueList[0].value_number + '%'}
+              {property5.value_number + '%'}
             </Text>
           </View>
         );
       case 6: // OTHER
+        var property1 = valueList.find((item) => item.value_property_id == 1)
         return (
           <View style={styles.status}>
             <Icon
@@ -169,7 +176,7 @@ function SortedList({
                 styles.statusIcon,
                 {
                   backgroundColor:
-                    'hsl(120, ' + valueList[0].value_number + '00%, 40%)',
+                    'hsl(120, ' + property1.value_number + '00%, 40%)',
                 },
               ]}
             />

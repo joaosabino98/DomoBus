@@ -89,7 +89,7 @@ function HomeScreen({navigation, route}) {
           isVisible={visible}
           onBackdropPress={toggleOverlay}
         >
-          <View style={[styles.overlay, {height: Dimensions.get('window').height * (0.5 + 1 * device.value.length)/10}]}>
+          <View style={[styles.overlay, {height: Dimensions.get('window').height * (0.75 + 1.5 * device.value.length)/10}]}>
             <DeviceInfo userID={context.userID} device={device}/>
           </View>
         </Modal>
