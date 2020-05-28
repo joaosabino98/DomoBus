@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
 import {
   View,
   Text,
@@ -14,15 +14,22 @@ import {changeValue} from '../API/Api';
 function DeviceInfo({userID, device}) {
   const [editing, setEditing] = useState(false);
   const [nameEdit, setNameEdit] = useState(device.device_name); // so we can pass the device name as default value in the component
+  const input = useRef(null);
 
-  const toggleEditing = () => {
+  function toggleEditing() {
     setEditing(!editing);
   };
+
+  useEffect(() => {
+    if (editing)
+        input.current.focus()
+  }, [editing])
 
   const saveName = name => {
     // call function to change name
     toggleEditing();
   };
+
   const [property1, setProperty1] = useState(false);
   const [property2, setProperty2] = useState(250);
   const [property3, setProperty3] = useState(100);
@@ -229,29 +236,31 @@ function DeviceInfo({userID, device}) {
   return (
     <View style={styles.container}>
       <View style={styles.blockTitle}>
-        {editing ? (
+        {editing ? 
           <View style={styles.deviceHeader}>
             <TextInput
               value={nameEdit}
+              style={[styles.title, {marginBottom: -2, marginLeft: -4}]}
               onChangeText={setNameEdit}
-              onSubmitEditing={saveName(nameEdit)}
+              onSubmitEditing={(name) => saveName(name)}
+              ref={input}
             />
-            {/*<TouchableOpacity onPress={saveName(nameEdit)}>
+            <TouchableOpacity onPress={() => saveName(nameEdit)}>
               <View style={[styles.editButton, {marginLeft: -5}]}>
                 <Icon name="content-save" size={30} color={'#ffffff'} />
               </View>
-            </TouchableOpacity>*/}
+            </TouchableOpacity>
           </View>
-        ) : (
+        :
           <View style={styles.deviceHeader}>
             <Text style={styles.title}>{device.device_name}</Text>
-            <TouchableOpacity onPress={toggleEditing()}>
+            <TouchableOpacity onPress={() => toggleEditing()}>
               <View style={[styles.editButton, {marginLeft: -5}]}>
                 <Icon name="square-edit-outline" size={30} color={'#ffffff'} />
               </View>
             </TouchableOpacity>
           </View>
-        )}
+        }
       </View>
       {device.value
         .sort((a, b) => a.value_property_id > b.value_property_id)
