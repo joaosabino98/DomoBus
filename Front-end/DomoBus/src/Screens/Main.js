@@ -33,7 +33,7 @@ function HomeScreen({navigation, route}) {
   const [search, updateSearch] = useState('');
 
   const deviceDetails = n => {
-    selectDevice(() => context.device.find((element) => element.device_id == n));
+    selectDevice(() => context.device.find(element => element.device_id == n));
     toggleOverlay();
   };
 
@@ -86,12 +86,18 @@ function HomeScreen({navigation, route}) {
           selectDevice={deviceDetails}
           searchQuery={search}
         />
-        <Modal
-          isVisible={visible}
-          onBackdropPress={toggleOverlay}
-        >
-          <View style={[styles.overlay, {height: Dimensions.get('window').height * (0.75 + 1.5 * device.value.length)/10}]}>
-            <DeviceInfo userID={context.userID} device={device}/>
+        <Modal isVisible={visible} onBackdropPress={toggleOverlay}>
+          <View
+            style={[
+              styles.overlay,
+              {
+                height:
+                  (Dimensions.get('window').height *
+                    (0.75 + 1.5 * device.value.length)) /
+                  10,
+              },
+            ]}>
+            <DeviceInfo userID={context.userID} device={device} />
           </View>
         </Modal>
       </View>
@@ -107,7 +113,7 @@ function HomeScreen({navigation, route}) {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
@@ -146,8 +152,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#1e90ff',
     elevation: 10,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default HomeScreen;
