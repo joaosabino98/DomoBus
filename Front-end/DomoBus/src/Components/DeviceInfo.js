@@ -9,7 +9,7 @@ import {
   Switch,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-import {changeValue} from '../API/Api';
+import {changeValue, changeName} from '../API/Api';
 
 function DeviceInfo({userID, device}) {
   const [editing, setEditing] = useState(false);
@@ -28,6 +28,10 @@ function DeviceInfo({userID, device}) {
   const saveName = name => {
     // call function to change name
     toggleEditing();
+    if (device.device_name != nameEdit) {
+        device.device_name = nameEdit;
+        changeName(userID, device.device_id, nameEdit);
+    }
   };
 
   const [property1, setProperty1] = useState(false);
