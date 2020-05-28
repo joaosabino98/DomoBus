@@ -30,6 +30,32 @@ END;
 $$
 LANGUAGE plpgsql;
 
+CREATE FUNCTION domobus.change_name(arg_person_id INT, arg_device_id INT, arg_device_name VARCHAR(80))
+RETURNS VARCHAR AS
+$$
+DECLARE
+	device domobus.device%rowtype;
+	result VARCHAR(80);
+BEGIN
+	SELECT * FROM domobus.device
+	WHERE (device_id = arg_device_id)
+	INTO device;
+	IF domobus.check_admin_permission(arg_person_id, device.device_home_id)
+	OR domobus.check_division_permission(arg_person_id, device.device_division_id) THEN
+		UPDATE domobus.device
+		SET device_name = arg_device_name
+		WHERE (device_id = arg_device_id)
+		RETURNING device_name INTO result;
+	ELSE 
+		RAISE EXCEPTION 'User % does not have enough permissions', arg_person_id
+      	USING HINT = 'Please check if you can control this division.';
+	END IF;
+	RETURN result;
+END;
+$$
+LANGUAGE plpgsql;
+
+
 CREATE FUNCTION domobus.change_value(arg_person_id INT, arg_device_id INT, arg_property_id INT, arg_value_number INT)
 RETURNS INT AS
 $$
